@@ -1,5 +1,4 @@
 ---
-name: PHP Code Style
 globs: ["**/*.php"]
 ---
 
@@ -9,30 +8,31 @@ globs: ["**/*.php"]
 
 This rule defines the required coding style for all PHP source code generated or modified by the AI.
 
-Its purpose is to ensure that all code is consistent, readable, maintainable and follows modern PHP community standards.
+Unless explicitly overridden by user instructions or project-specific requirements, every generated or modified PHP file MUST comply with this specification.
 
-Unless explicitly overridden by project-specific requirements or user instructions, all PHP code should follow the principles of PSR-1, PSR-4 and PSR-12.
+The AI MUST generate PHP code that is:
 
----
+- Consistent
+- Readable
+- Maintainable
+- Predictable
+- Compatible with modern PHP standards
+
+This rule defines coding style only. It does not define architecture, design patterns or business logic.
 
 ## References
 
 This rule is based on the following PHP-FIG specifications:
 
 - PSR-1 — Basic Coding Standard
-  <https://www.php-fig.org/psr/psr-1/>
-
 - PSR-4 — Autoloading Standard
-  <https://www.php-fig.org/psr/psr-4/>
-
 - PSR-12 — Extended Coding Style
-  <https://www.php-fig.org/psr/psr-12/>
 
----
+Whenever this rule does not explicitly define a style requirement, the AI MUST follow the relevant PSR specification.
 
 ## PHP File Structure
 
-Each PHP file should be organized in the following order:
+Every generated PHP file MUST follow the structure below.
 
 1. Opening PHP tag.
 2. `declare(strict_types=1);`
@@ -56,48 +56,91 @@ final class UserService
 }
 ```
 
----
+The AI MUST place `declare(strict_types=1);` immediately after the opening PHP tag.
+
+The AI MUST NOT place executable code before the namespace declaration.
 
 ## File Organization
 
-- One class, interface, trait or enum per file.
-- File names should match the declared type.
-- Namespaces should reflect the directory structure.
+Each PHP file MUST contain exactly one class, interface, trait or enum unless explicitly instructed otherwise.
 
----
+File names MUST match the declared type.
+
+Namespaces MUST reflect the project directory structure according to PSR-4.
+
+The AI MUST NOT generate multiple unrelated declarations within the same file.
+
+## Files
+
+Every PHP file MUST end with exactly one newline.
+
+The AI MUST NOT generate multiple opening PHP tags within a single file unless explicitly required.
+
+The AI MUST NOT generate a closing PHP tag (`?>`) in files containing only PHP code.
 
 ## Strict Types
 
-Every PHP source file should declare strict typing.
+Every generated PHP source file MUST declare strict typing.
 
 ```php
 declare(strict_types=1);
 ```
 
----
+This declaration MUST appear immediately after the opening PHP tag.
+
+The AI MUST NOT omit `declare(strict_types=1);` unless explicitly instructed by the user.
 
 ## Namespaces
 
-The namespace declaration should appear immediately after `declare(strict_types=1);`.
+The namespace declaration MUST immediately follow `declare(strict_types=1);`.
 
----
+Namespaces MUST comply with PSR-4.
+
+The AI MUST:
+
+- Generate valid namespaces.
+- Match the project directory structure.
+- Use exactly one namespace declaration per file.
+
+The AI MUST NOT:
+
+- Omit the namespace declaration.
+- Generate multiple namespace declarations within a single file.
+- Place import statements before the namespace declaration.
 
 ## Import Statements
 
-- Use `use` statements whenever practical.
-- Group imports together.
-- Remove unused imports.
-- Leave one blank line between imports and the following declaration.
+The AI MUST use `use` statements for external classes whenever appropriate.
 
----
+Import statements MUST be grouped together.
+
+Unused imports MUST be removed.
+
+Duplicate imports MUST NEVER be generated.
+
+A single blank line MUST separate the import block from the following declaration.
+
+The AI SHOULD sort imports alphabetically unless the existing project follows another convention.
+
+The AI MUST NOT:
+
+- Leave unused imports.
+- Generate duplicate imports.
+- Use fully-qualified class names when an import statement is appropriate.
 
 ## Naming Conventions
 
+The AI MUST use consistent naming conventions throughout the project.
+
+Identifiers MUST be descriptive and clearly communicate their purpose.
+
+The AI SHOULD avoid abbreviations unless they are widely recognized within the PHP ecosystem or already exist in the project.
+
 ### Classes
 
-Use PascalCase.
+Class names MUST use PascalCase.
 
-Example:
+Examples:
 
 ```text
 UserService
@@ -107,9 +150,11 @@ OrderRepository
 
 ### Interfaces
 
-Use PascalCase.
+Interface names MUST use PascalCase.
 
-Example:
+The AI SHOULD preserve the project's existing naming convention for interfaces.
+
+Examples:
 
 ```text
 CacheInterface
@@ -118,19 +163,20 @@ LoggerInterface
 
 ### Traits
 
-Use PascalCase.
+Trait names MUST use PascalCase.
 
-Example:
+Examples:
 
 ```text
 LoggableTrait
+SoftDeletes
 ```
 
 ### Enums
 
-Use PascalCase.
+Enum names MUST use PascalCase.
 
-Example:
+Examples:
 
 ```text
 UserStatus
@@ -139,11 +185,11 @@ PaymentMethod
 
 ### Methods
 
-Use camelCase.
+Method names MUST use camelCase.
 
-Method names should clearly describe an action.
+Method names SHOULD clearly describe an action.
 
-Example:
+Examples:
 
 ```text
 createUser
@@ -151,13 +197,15 @@ calculatePrice
 sendNotification
 ```
 
+The AI MUST NOT use vague or ambiguous method names unless they already exist in the project.
+
 ### Variables
 
-Use camelCase.
+Variable names MUST use camelCase.
 
-Prefer descriptive names.
+Variable names SHOULD clearly describe their purpose.
 
-Good:
+Good examples:
 
 ```text
 $currentUser
@@ -165,13 +213,22 @@ $connectionTimeout
 $orderTotal
 ```
 
-Avoid unclear abbreviations.
+Avoid unclear abbreviations such as:
+
+```text
+$tmp
+$obj
+$val
+$data1
+```
+
+unless their meaning is obvious from the surrounding code.
 
 ### Constants
 
-Use UPPER_SNAKE_CASE.
+Constant names MUST use UPPER_SNAKE_CASE.
 
-Example:
+Examples:
 
 ```text
 DEFAULT_TIMEOUT
@@ -179,53 +236,127 @@ MAX_CONNECTIONS
 API_VERSION
 ```
 
----
-
 ## Formatting
+
+The AI MUST follow PSR-12 formatting rules.
+
+Formatting MUST remain consistent throughout the entire file.
+
+### Indentation
+
+The AI MUST use four spaces for indentation.
+
+Tabs MUST NOT be used for indentation.
 
 ### Blank Lines
 
+The AI MUST:
+
 - Use a single blank line to separate logical sections.
-- Avoid multiple consecutive blank lines.
+- Separate namespace, imports and declarations with one blank line.
+- Keep blank lines meaningful.
+
+The AI MUST NOT:
+
+- Generate multiple consecutive blank lines.
+- Insert decorative blank lines.
 
 ### Whitespace
 
-Use one space:
+The AI MUST:
 
-- after commas;
-- around binary operators;
-- after language keywords where required.
+- Use one space after commas.
+- Use one space around binary operators.
+- Use one space after language keywords where required.
 
-Avoid trailing whitespace.
+The AI MUST NOT:
+
+- Leave trailing whitespace.
+- Insert unnecessary spaces.
+- Align assignments using spaces.
+
+Correct:
+
+```php
+$total = $price + $tax;
+```
+
+Incorrect:
+
+```php
+$total      = $price + $tax;
+```
+
+### Line Endings
+
+The AI SHOULD preserve the existing line ending style of the project.
+
+When creating new files, the AI SHOULD use Unix-style line endings (LF).
 
 ### Line Length
 
-Keep lines reasonably short.
+Lines SHOULD remain reasonably short.
 
-Wrap long expressions across multiple lines when readability improves.
+Long expressions SHOULD be wrapped across multiple lines when doing so improves readability.
 
----
+The AI MUST NOT wrap code unnecessarily.
 
-## Braces
+## Trailing Commas
 
-Always use braces.
-
-Opening braces should be placed on the next line.
+The AI SHOULD use trailing commas in multiline arrays, function calls, parameter lists and argument lists whenever supported by the target PHP version.
 
 Example:
 
 ```php
-if ($condition)
+public function __construct(
+    private LoggerInterface $logger,
+    private CacheInterface $cache,
+) {
+}
+```
+
+## Braces
+
+The AI MUST follow the brace placement defined by PSR-12.
+
+Opening braces for classes, interfaces, traits, enums and methods MUST appear on the next line.
+
+Example:
+
+```php
+final class UserService
 {
+    public function create(): void
+    {
+    }
+}
+```
+
+Opening braces for control structures MUST appear on the same line.
+
+Correct:
+
+```php
+if ($condition) {
     doSomething();
 }
 ```
 
----
+The AI MUST always use braces for control structures, even when the body contains only a single statement.
+
+The AI MUST NOT generate alternative control structure syntax.
+
+Forbidden:
+
+```php
+if ($condition):
+
+endif;
+```
 
 ## Parentheses
 
-Do not place unnecessary spaces inside parentheses.
+The AI MUST NOT place unnecessary whitespace inside parentheses.
 
 Correct:
 
@@ -239,11 +370,18 @@ Incorrect:
 if ( $value === 1 )
 ```
 
----
+This rule applies to:
+
+- Function calls
+- Method calls
+- Control structures
+- Language constructs
 
 ## Control Structures
 
-Apply consistent formatting to all control structures, including:
+All control structures MUST follow PSR-12.
+
+This includes:
 
 - if
 - elseif
@@ -258,100 +396,189 @@ Apply consistent formatting to all control structures, including:
 - catch
 - finally
 
-Always use braces, even for single-line bodies.
+The AI MUST:
+
+- Always use braces.
+- Keep indentation consistent.
+- Format nested control structures according to PSR-12.
 
 Preferred:
 
 ```php
-if ($isValid)
-{
+if ($isValid) {
     process();
 }
 ```
 
-Avoid:
+Forbidden:
 
 ```php
 if ($isValid)
     process();
 ```
 
----
-
 ## Functions and Methods
 
-- Use descriptive names.
-- Declare parameter types whenever possible.
-- Declare return types whenever possible.
+Function and method names MUST clearly describe their purpose.
 
----
+The AI MUST:
+
+- Use camelCase for function and method names.
+- Declare native parameter types whenever possible.
+- Declare native return types whenever possible.
+- Preserve the existing parameter order when modifying existing methods.
+
+The AI MUST NOT:
+
+- Change the signature of an existing public method unless explicitly instructed.
+- Omit parameter or return types when they can be expressed using native PHP types.
+
+Example:
+
+```php
+public function calculateTotal(Order $order): float
+{
+    // ...
+}
+```
 
 ## Parameters
 
-Separate parameters with a comma followed by one space.
+Parameters MUST be separated by a comma followed by a single space.
 
-Long parameter lists may be split across multiple lines.
+Long parameter lists SHOULD be split across multiple lines.
 
----
+Example:
+
+```php
+public function createUser(
+    string $name,
+    string $email,
+    bool $isAdmin,
+): User {
+}
+```
 
 ## Return Types
 
-Declare return types whenever they are known.
+The AI MUST declare native return types whenever PHP allows them.
 
-Avoid omitting return types unless necessary.
+Return types MUST NOT be omitted without a valid reason.
 
----
+Correct:
+
+```php
+public function getUser(): User
+```
+
+```php
+public function exists(): bool
+```
+
+```php
+public function save(): void
+```
 
 ## Properties
 
-Always declare visibility explicitly.
+All properties MUST explicitly declare visibility.
+
+Properties SHOULD declare native PHP types whenever possible.
+
+Correct:
+
+```php
+private string $name;
+
+protected ?User $user;
+
+public bool $enabled;
+```
+
+The AI MUST NOT omit visibility declarations.
+
+## Type Declarations
+
+The AI MUST prefer native PHP type declarations whenever possible.
+
+The AI MUST use the most specific type that accurately represents the value.
+
+The AI MUST NOT replace a specific type with `mixed` unless explicitly required.
 
 Preferred:
 
 ```php
-private string $name;
+string
+int
+bool
+float
+array
+callable
+iterable
+User
 ```
 
 Avoid:
 
 ```php
-var $name;
+mixed
 ```
 
----
+unless the value genuinely cannot be represented by a more specific type.
 
-## Type Declarations
+## Array Syntax
 
-Prefer native PHP type declarations whenever possible.
+The AI MUST use the short array syntax.
 
----
+Correct:
+
+```php
+$items = [];
+```
+
+Forbidden:
+
+```php
+$items = array();
+```
 
 ## Nullable Types
 
-Use nullable types only when `null` is a valid value.
+Nullable types MUST only be used when `null` is a valid value.
 
-Example:
+Correct:
 
 ```php
-?string
+private ?User $user;
 ```
 
----
+The AI MUST NOT make a type nullable unless the value may legitimately be `null`.
 
 ## Union Types
 
-Use union types only when they accurately describe the allowed values.
+Union types SHOULD only be used when they accurately represent the allowed values.
 
-Avoid unnecessarily complex type declarations.
+Correct:
 
----
+```php
+string|int
+```
+
+```php
+User|null
+```
+
+The AI SHOULD avoid unnecessarily complex union types.
 
 ## Priority
 
-When generating PHP code, follow this priority:
+When generating or modifying PHP code, the AI MUST follow this priority order:
 
 1. Explicit user instructions.
-2. This rule.
-3. PSR-12.
-4. PSR-4.
-5. PSR-1.
+2. Project-specific conventions.
+3. This rule.
+4. PSR-12.
+5. PSR-4.
+6. PSR-1.
+
+A higher-priority rule MUST override a lower-priority rule.
