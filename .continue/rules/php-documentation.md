@@ -1,5 +1,4 @@
 ---
-name: PHP Documentation
 globs: ["**/*.php"]
 ---
 
