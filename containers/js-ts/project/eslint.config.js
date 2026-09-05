@@ -8,7 +8,9 @@ import { defineConfig } from 'eslint/config';
 export default defineConfig([
     // Общие настройки: игнор, плагины, глобальные переменные и парсер
     {
-        ignores: ['node_modules', 'dist', 'eslint.config.js'],
+        ignores: ['node_modules/**', 'dist/**', 'eslint.config.js'],
+    },
+    {
         plugins: {
             js,
             prettier: eslintPluginPrettier,
