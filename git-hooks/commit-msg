@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "activated hook"
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+node "$REPO_ROOT/scripts/commit-msg.js" "$1"

@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "JS/TS: Node 24 — Docker :9801",
+            "remoteRoot": "/workspace",
+            "localRoot": "${workspaceFolder}/containers/js-ts/project",
+            "port": 9801,
+            "address": "localhost"
+        }
+    ]
+}
