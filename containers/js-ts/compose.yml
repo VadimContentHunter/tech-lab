@@ -13,6 +13,7 @@ services:
     volumes:
       - ./project:/workspace
 
-    command: sh -c "if [ ! -d node_modules ]; then npm install; fi && npm run dev-debug"
+    # command: sh -c "if [ ! -d node_modules ]; then npm install; fi && npm run dev-debug"
+    command: sh -c "if [ ! -d node_modules ]; then npm install; fi && npm run dev-debug-build"
     # command: sh -c "if [ ! -d node_modules ]; then npm install; fi && npm run dev"
     # command: sh -c "if [ ! -d node_modules ]; then npm install; fi && npm run start"

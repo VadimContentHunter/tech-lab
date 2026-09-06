@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "dev-debug-build": "npx nodemon --watch app --ext ts,js --exec \"npx tsc && npx node --inspect=0.0.0.0:9801 --no-warnings=ExperimentalWarning --loader ts-node/esm app/server.ts\"",
         "dev-debug": "npx nodemon --watch app --ext .ts,.js --exec \"npx node --inspect=0.0.0.0:9801 --no-warnings=ExperimentalWarning --loader ts-node/esm app/server.ts\"",
         "dev": "npx nodemon --watch app --ext .ts,.js --exec \"npx node --no-warnings=ExperimentalWarning --loader ts-node/esm app/server.ts\"",
         "build": "npx rimraf ./dist && npx tsc",

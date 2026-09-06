@@ -5,26 +5,40 @@ import { fileURLToPath } from 'url';
 const app = express();
 const port = 9701;
 
-// Получаем путь к текущему файлу в ES Module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const pagesPath = path.join(__dirname, 'pages');
+const distPath = path.join(__dirname, '../dist');
 
-// Раздача статических файлов тестовых страниц
-app.use(express.static(pagesPath));
+const pages = {
+    mvp: {
+        url: '/mvp',
+        path: 'mvp',
+        html: 'mvp.html',
+    },
 
-// Главная страница
-app.get('/', (_req: Request, res: Response) => {
-    res.sendFile(path.join(pagesPath, 'home.html'));
+    react: {
+        url: '/react',
+        path: 'react',
+        html: 'index.html',
+    },
+};
+
+// Регистрация страниц
+Object.entries(pages).forEach(([_name, page]) => {
+    const pagePath = path.join(pagesPath, page.path);
+    const distPagePath = path.join(distPath, 'pages', page.path);
+
+    // HTML-страница
+    app.get(page.url, (_req: Request, res: Response) => {
+        res.sendFile(path.join(pagePath, page.html));
+    });
+
+    // JS-файлы страницы
+    app.use(`/js${page.url}`, express.static(distPagePath));
 });
 
-// Тестовая страница React
-app.get('/react', (_req: Request, res: Response) => {
-    res.sendFile(path.join(pagesPath, 'react', 'index.html'));
-});
-
-// Запуск сервера
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
