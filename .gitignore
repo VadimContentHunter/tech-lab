@@ -1,3 +1,3 @@
 /.continue/mcpServers/github-mcp.yaml
-/containers/js-ts/project/node_modules
-/containers/js-ts/project/dist
+/containers/js-ts-frontend/project/node_modules
+/containers/js-ts-frontend/project/dist

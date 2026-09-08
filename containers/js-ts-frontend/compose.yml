@@ -1,0 +1,52 @@
+services:
+  node-app:
+    build:
+      context: .
+      dockerfile: docker/node-js-24/Dockerfile
+
+    working_dir: /workspace
+
+    ports:
+      - "9701:9701"
+      - "9801:9801"
+
+    volumes:
+      - ./project:/workspace
+      - /workspace/node_modules
+
+    # ============================================================
+    # Production
+    # Build frontend with selected bundler → build server → start
+    # ============================================================
+
+    # Webpack
+    # command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run start:webpack"
+
+    # esbuild
+    # command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run start:esbuild"
+
+
+    # ============================================================
+    # Development
+    # Frontend bundler in watch mode + Node.js server
+    # ============================================================
+
+    # Webpack
+    # command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run dev:webpack"
+
+    # esbuild
+    # command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run dev:esbuild"
+
+
+    # ============================================================
+    # Development + Debug
+    # Frontend bundler in watch mode + Node.js server + Inspector
+    # ============================================================
+
+    # Webpack
+    # command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run dev:debug:webpack"
+
+    # esbuild
+    command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run dev:debug:esbuild"
+
+

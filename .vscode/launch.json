@@ -6,7 +6,7 @@
             "request": "attach",
             "name": "JS/TS: Node 24 — Docker :9801",
             "remoteRoot": "/workspace",
-            "localRoot": "${workspaceFolder}/containers/js-ts/project",
+            "localRoot": "${workspaceFolder}/containers/js-ts-frontend/project",
             "port": 9801,
             "address": "localhost"
         }

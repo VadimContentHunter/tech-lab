@@ -1,0 +1,63 @@
+{
+    "name": "doc-container-node-ts",
+    "version": "1.0.0",
+    "description": "JavaScript and TypeScript frontend testing environment",
+    "main": "server/dist/main.js",
+    "scripts": {
+        "start:webpack": "npm run build:webpack && npm run build:server && node server/dist/main.js",
+        "start:esbuild": "npm run build:esbuild && npm run build:server && node server/dist/main.js",
+        "dev:webpack": "concurrently \"npm run dev:webpack:watch\" \"npm run dev:server\"",
+        "dev:esbuild": "concurrently \"npm run dev:esbuild:watch\" \"npm run dev:server\"",
+        "dev:debug:webpack": "concurrently \"npm run dev:webpack:watch\" \"npm run dev:server:debug\"",
+        "dev:debug:esbuild": "concurrently \"npm run dev:esbuild:watch\" \"npm run dev:server:debug\"",
+        "dev:webpack:watch": "npx webpack --config ./frontend/webpack/webpack.config.js --watch",
+        "dev:esbuild:watch": "npx node ./frontend/esbuild/esbuild.config.js --watch",
+        "dev:server": "npx nodemon --config nodemon.json",
+        "dev:server:debug": "npx nodemon --config nodemon.json --exec \"npx node --inspect=0.0.0.0:9801 --no-warnings=ExperimentalWarning --loader ts-node/esm server/src/main.ts\"",
+        "build": "npm run build:server",
+        "build:server": "npx rimraf ./server/dist && npx tsc -p ./server/tsconfig.json",
+        "build:webpack": "npx rimraf ./frontend/dist && npx webpack --config ./frontend/webpack/webpack.config.js",
+        "build:esbuild": "npx rimraf ./frontend/dist && npx node ./frontend/esbuild/esbuild.config.js",
+        "lint": "npx eslint ./frontend ./server",
+        "format": "npx eslint ./frontend ./server --fix",
+        "updateBashHooks": "npx node ../../../scripts/updateBashHooks.js"
+    },
+    "keywords": [
+        "javascript",
+        "typescript",
+        "frontend",
+        "webpack",
+        "esbuild"
+    ],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.0",
+        "@commitlint/config-conventional": "^19.8.0",
+        "@eslint/js": "^9.25.0",
+        "@types/express": "^5.0.1",
+        "@types/node": "^22.14.1",
+        "@typescript-eslint/eslint-plugin": "^8.30.1",
+        "@typescript-eslint/parser": "^8.30.1",
+        "eslint": "^9.25.0",
+        "eslint-config-prettier": "^10.1.2",
+        "eslint-plugin-prettier": "^5.2.6",
+        "globals": "^16.0.0",
+        "html-webpack-plugin": "^5.6.3",
+        "nodemon": "^3.1.9",
+        "prettier": "^3.5.3",
+        "rimraf": "^6.0.1",
+        "ts-loader": "^9.5.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.30.1",
+        "webpack": "^5.99.9",
+        "webpack-cli": "^6.0.1",
+        "esbuild": "^0.25.4",
+        "concurrently": "^9.1.2"
+    },
+    "dependencies": {
+        "express": "^5.1.0"
+    }
+}

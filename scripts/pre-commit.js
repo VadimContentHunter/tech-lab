@@ -14,9 +14,9 @@ if (process.platform === 'win32') {
 
 const containers = [
     {
-        name: 'js-ts',
+        name: 'js-ts-frontend',
         enabled: true,
-        path: 'containers/js-ts/project',
+        path: 'containers/js-ts-frontend/project',
         command: 'npm run lint',
     },
     // {
