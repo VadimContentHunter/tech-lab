@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isWatch = process.argv.includes('--watch');
-const entriesPath = path.resolve(__dirname, '../src/entries');
+const entriesPath = path.resolve(__dirname, '../apps');
 async function getEntries() {
     try {
         const entries = await fs.readdir(entriesPath, {

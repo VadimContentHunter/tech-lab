@@ -8,11 +8,11 @@ const app = express();
 const port = 9701;
 
 const projectPath = process.cwd();
-const entriesPath = path.join(projectPath, 'frontend', 'src', 'entries');
+const appsPath = path.join(projectPath, 'frontend', 'apps');
 const templatePath = path.join(projectPath, 'server', 'templates', 'index.html');
 
 async function generateIndexPage(): Promise<string> {
-    const [template, projects] = await Promise.all([fs.readFile(templatePath, 'utf8'), getProjects(entriesPath)]);
+    const [template, projects] = await Promise.all([fs.readFile(templatePath, 'utf8'), getProjects(appsPath)]);
 
     return template.replace('{{PROJECTS}}', renderProjects(projects));
 }
@@ -29,9 +29,9 @@ app.get('/', async (_request, response) => {
     }
 });
 
-app.get('/entries/:project', async (request, response) => {
+app.get('/apps/:project', async (request, response) => {
     const projectName = request.params.project;
-    const indexPath = path.join(entriesPath, projectName, 'index.html');
+    const indexPath = path.join(appsPath, projectName, 'index.html');
 
     try {
         await fs.access(indexPath);
@@ -42,19 +42,19 @@ app.get('/entries/:project', async (request, response) => {
     }
 });
 
-app.use('/entries/:project', (request, response, next) => {
+app.use('/apps/:project', (request, response, next) => {
     const projectName = request.params.project;
-    const projectPath = path.join(entriesPath, projectName);
+    const projectDir = path.join(appsPath, projectName);
 
     if (request.path.endsWith('.ts') || request.path.endsWith('.tsx')) {
         response.status(404).type('text').send('File not found.');
         return;
     }
 
-    express.static(projectPath)(request, response, next);
+    express.static(projectDir)(request, response, next);
 });
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
-    console.log(`Entries directory: ${entriesPath}`);
+    console.log(`Apps directory: ${appsPath}`);
 });

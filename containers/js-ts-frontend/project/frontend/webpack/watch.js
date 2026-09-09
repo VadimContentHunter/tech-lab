@@ -7,7 +7,7 @@ import { createWebpackConfig } from './webpack.config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const entriesPath = path.resolve(__dirname, '../src/entries');
+const entriesPath = path.resolve(__dirname, '../apps');
 
 async function getEntries() {
     try {

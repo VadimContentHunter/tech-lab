@@ -6,26 +6,26 @@ export interface Project {
     updatedAt: Date;
 }
 
-export async function getProjects(entriesPath: string): Promise<Project[]> {
+export async function getProjects(appsPath: string): Promise<Project[]> {
     try {
-        const entries = await fs.readdir(entriesPath, {
+        const apps = await fs.readdir(appsPath, {
             withFileTypes: true,
         });
 
         const projects: Project[] = [];
 
-        for (const entry of entries) {
-            if (!entry.isDirectory()) {
+        for (const app of apps) {
+            if (!app.isDirectory()) {
                 continue;
             }
 
-            const indexPath = path.join(entriesPath, entry.name, 'index.html');
+            const indexPath = path.join(appsPath, app.name, 'index.html');
 
             try {
                 const stats = await fs.stat(indexPath);
 
                 projects.push({
-                    name: entry.name,
+                    name: app.name,
                     updatedAt: stats.mtime,
                 });
             } catch {
@@ -58,7 +58,7 @@ export function renderProjects(projects: Project[]): string {
         .map(
             (project) => `
                 <li class="project">
-                    <a href="/entries/${encodeURIComponent(project.name)}/">
+                    <a href="/apps/${encodeURIComponent(project.name)}/">
                         <span class="project-name">
                             ${escapeHtml(project.name)}
                         </span>
