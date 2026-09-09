@@ -5,6 +5,8 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import { defineConfig } from 'eslint/config';
 
+const projectRoot = import.meta.dirname;
+
 export default defineConfig([
     // Игнорируем зависимости, результаты сборки и конфигурационные файлы.
     {
@@ -47,6 +49,7 @@ export default defineConfig([
                 ...globals.es2024,
             },
             parserOptions: {
+                tsconfigRootDir: projectRoot,
                 project: ['./frontend/tsconfig.json'],
             },
         },
@@ -70,6 +73,7 @@ export default defineConfig([
                 ...globals.es2024,
             },
             parserOptions: {
+                tsconfigRootDir: projectRoot,
                 project: ['./server/tsconfig.json'],
             },
         },

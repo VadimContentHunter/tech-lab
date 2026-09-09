@@ -1,0 +1,8 @@
+@import url('./elements/ClientProfileUi/css/ClientProfileUi.css');
+
+body {
+    margin: 0;
+    padding: 40px;
+
+    background: #f8fafc;
+}

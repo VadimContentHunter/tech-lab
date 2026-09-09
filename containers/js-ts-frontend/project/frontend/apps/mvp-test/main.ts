@@ -1,10 +1,12 @@
-const app = document.querySelector<HTMLDivElement>('#app');
+import { UserModel } from './elements/ClientProfileUi/Model/UserModel';
+import { ClientProfilePresenter } from './elements/ClientProfileUi/Presenter/ClientProfilePresenter';
+import { ClientProfileView } from './elements/ClientProfileUi/View/ClientProfileView';
 
-if (app) {
-    app.innerHTML = `
-        <h1>MVP Test</h1>
-        <p>Frontend project is working.</p>
-    `;
-}
-
-export {};
+const user = new UserModel({
+    id: 1,
+    email: 'ivan@example.com',
+    avatar: { type: 'icon', value: 'fa-solid fa-circle-user' },
+});
+const view = new ClientProfileView();
+const presenter = new ClientProfilePresenter(user, view);
+presenter.renderTo('#app');
