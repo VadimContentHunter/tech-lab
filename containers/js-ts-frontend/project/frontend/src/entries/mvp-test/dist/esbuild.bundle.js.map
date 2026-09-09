@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../main.ts"],
-  "sourcesContent": ["const app = document.querySelector<HTMLDivElement>('#app');\r\n\r\nif (app) {\r\n    app.innerHTML = `\r\n        <h1>MVP Test</h1>\r\n        <p>Frontend project is working.</p>\r\n    `;\r\n}\r\n\r\nexport {};\r\n"],
-  "mappings": ";AAAA,IAAM,MAAM,SAAS,cAA8B,MAAM;AAEzD,IAAI,KAAK;AACL,MAAI,YAAY;AAAA;AAAA;AAAA;AAIpB;",
-  "names": []
-}
