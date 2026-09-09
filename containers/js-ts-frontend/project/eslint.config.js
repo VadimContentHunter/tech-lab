@@ -10,7 +10,7 @@ export default defineConfig([
     {
         ignores: [
             'node_modules/**',
-            'frontend/dist/**',
+            'frontend/src/entries/**/dist/**',
             'server/dist/**',
             'eslint.config.js',
             'frontend/webpack/webpack.config.js',

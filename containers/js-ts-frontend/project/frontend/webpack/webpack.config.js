@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -5,14 +6,44 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const entriesPath = path.resolve(__dirname, '../src/entries');
+const outputPath = path.resolve(__dirname, '../dist/entries');
+
+const entries = Object.fromEntries(
+    fs.readdirSync(entriesPath, {
+            withFileTypes: true,
+        })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => {
+            const entryPath = path.resolve(entriesPath, entry.name);
+            const files = fs.readdirSync(entryPath);
+            const mainFile = files.find((file) => file === 'main.ts' || file === 'main.tsx');
+
+            if (!mainFile) {
+                throw new Error(`Entry "${entry.name}" does not contain main.ts or main.tsx`);
+            }
+
+            return [entry.name, path.resolve(entryPath, mainFile)];
+        })
+);
+
+const htmlPlugins = Object.keys(entries).map(
+    (entryName) =>
+        new HtmlWebpackPlugin({
+            template: path.resolve(entriesPath, entryName, 'index.html'),
+            filename: `${entryName}/index.html`,
+            chunks: [entryName],
+        })
+);
+
 export default {
     mode: 'development',
 
-    entry: path.resolve(__dirname, '../src/main.ts'),
+    entry: entries,
 
     output: {
-        path: path.resolve(__dirname, '../dist'),
-        filename: 'webpack.bundle.js',
+        path: outputPath,
+        filename: '[name]/webpack.bundle.js',
         clean: true,
     },
 
@@ -40,11 +71,7 @@ export default {
         ],
     },
 
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/index.html'),
-        }),
-    ],
+    plugins: htmlPlugins,
 
     devtool: 'source-map',
 };
