@@ -8,8 +8,7 @@ const app = express();
 const port = 9701;
 
 const projectPath = process.cwd();
-const publicPath = path.join(projectPath, 'frontend', 'dist');
-const entriesPath = path.join(publicPath, 'entries');
+const entriesPath = path.join(projectPath, 'frontend', 'src', 'entries');
 const templatePath = path.join(projectPath, 'server', 'templates', 'index.html');
 
 async function generateIndexPage(): Promise<string> {
@@ -30,10 +29,32 @@ app.get('/', async (_request, response) => {
     }
 });
 
-app.use(express.static(publicPath));
+app.get('/entries/:project', async (request, response) => {
+    const projectName = request.params.project;
+    const indexPath = path.join(entriesPath, projectName, 'index.html');
+
+    try {
+        await fs.access(indexPath);
+
+        response.sendFile(indexPath);
+    } catch {
+        response.status(404).type('text').send('Project not found.');
+    }
+});
+
+app.use('/entries/:project', (request, response, next) => {
+    const projectName = request.params.project;
+    const projectPath = path.join(entriesPath, projectName);
+
+    if (request.path.endsWith('.ts') || request.path.endsWith('.tsx')) {
+        response.status(404).type('text').send('File not found.');
+        return;
+    }
+
+    express.static(projectPath)(request, response, next);
+});
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
-
-    console.log(`Public directory: ${publicPath}`);
+    console.log(`Entries directory: ${entriesPath}`);
 });
