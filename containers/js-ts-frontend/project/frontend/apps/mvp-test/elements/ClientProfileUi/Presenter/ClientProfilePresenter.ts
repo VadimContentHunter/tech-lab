@@ -5,10 +5,12 @@ export class ClientProfilePresenter {
     constructor(
         private readonly model: UserModel,
         private readonly view: ClientProfileView
-    ) {}
+    ) {
+        this.view.setPresenter(this);
+    }
 
     public init(): void {
-        this.render();
+        this.renderView();
     }
 
     public mount(container: string | HTMLElement): void {
@@ -24,16 +26,20 @@ export class ClientProfilePresenter {
     }
 
     public renderTo(container: string | HTMLElement): void {
-        this.render();
+        this.renderView();
         this.mount(container);
     }
 
     public updateUser(data: UserData): void {
         this.model.update(data);
-        this.render();
+        this.renderView();
     }
 
-    private render(): void {
+    public handleClick(): void {
+        console.log('Profile clicked');
+    }
+
+    private renderView(): void {
         this.view.render(this.model.getData());
     }
 }

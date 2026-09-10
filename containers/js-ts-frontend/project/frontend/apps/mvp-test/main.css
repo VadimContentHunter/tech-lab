@@ -2,7 +2,13 @@
 
 body {
     margin: 0;
-    padding: 40px;
-
     background: #f8fafc;
+}
+
+#app {
+    position: absolute;
+    top: 25vh;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
 }
