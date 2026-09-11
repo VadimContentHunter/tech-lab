@@ -12,6 +12,34 @@
 <body>
     <div id="app"></div>
 
+    <script>
+        function initializeTheme(theme = 'dark') {
+            const themeToggle = document.createElement('button');
+            const isDark = theme === 'dark';
+
+            themeToggle.className = 'theme-toggle';
+            themeToggle.type = 'button';
+            themeToggle.textContent = isDark ? 'Light theme' : 'Dark theme';
+            themeToggle.setAttribute(
+                'aria-label',
+                isDark ? 'Enable light theme' : 'Enable dark theme'
+            );
+
+            document.body.classList.toggle('theme-dark', isDark);
+            themeToggle.addEventListener('click', () => {
+                const isDarkTheme = document.body.classList.toggle('theme-dark');
+                themeToggle.textContent = isDarkTheme ? 'Light theme' : 'Dark theme';
+                themeToggle.setAttribute(
+                    'aria-label',
+                    isDarkTheme ? 'Enable light theme' : 'Enable dark theme'
+                );
+            });
+
+            document.body.append(themeToggle);
+        }
+
+        initializeTheme();
+    </script>
     <script type="module" src="./dist/esbuild.bundle.js"></script>
 </body>
 

@@ -3,6 +3,56 @@
 body {
     margin: 0;
     background: #f8fafc;
+    transition: background-color 150ms ease;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+
+    padding: 8px 12px;
+
+    color: #1e3a5f;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    cursor: pointer;
+    font: inherit;
+}
+
+.theme-dark {
+    background: #121314;
+}
+
+.theme-dark .theme-toggle {
+    color: #f8fafc;
+    background: #1f2937;
+    border-color: #475569;
+}
+
+.theme-dark .client-profile {
+    background: #1f2937;
+    border-color: #475569;
+}
+
+.theme-dark .client-profile__email {
+    color: #e2e8f0;
+}
+
+.theme-dark .client-profile__menu {
+    background: #1f2937;
+    border-color: #475569;
+}
+
+.theme-dark .client-profile__menu-item {
+    color: #e2e8f0;
+}
+
+.theme-dark .client-profile__menu-item:hover {
+    background: #334155;
 }
 
 #app {
