@@ -1,6 +1,7 @@
 import { MenuModel, type MenuItem } from '../Model/MenuModel';
 import { UserModel, type UserData } from '../Model/UserModel';
 import { ClientProfileView } from '../View/ClientProfileView';
+
 export class ClientProfilePresenter {
     constructor(
         private readonly userModel: UserModel,
@@ -11,7 +12,8 @@ export class ClientProfilePresenter {
     }
 
     public init(): void {
-        this.renderView();
+        this.view.renderProfile(this.userModel.getData());
+        this.view.renderMenu(this.menuModel.getItems());
     }
 
     public mount(container: string | HTMLElement): void {
@@ -27,39 +29,41 @@ export class ClientProfilePresenter {
     }
 
     public renderTo(container: string | HTMLElement): void {
-        this.renderView();
+        this.init();
         this.mount(container);
     }
 
+    // State Management
+
     public updateUser(data: UserData): void {
         this.userModel.update(data);
-        this.renderView();
+        this.view.renderProfile(this.userModel.getData());
     }
 
-    private renderView(): void {
-        this.view.render(this.userModel.getData(), this.menuModel.getItems());
-        this.view.toggleMenu(this.menuModel.getIsOpen());
+    public updateMenu(items: MenuItem[]): void {
+        this.menuModel.setItems(items);
+        this.view.renderMenu(this.menuModel.getItems());
     }
 
-    // Event handlers
-
-    public handleToggleMenu(): void {
-        this.menuModel.toggleMenu();
-        this.view.toggleMenu(this.menuModel.getIsOpen());
-    }
-
-    public handleOpenMenu(): void {
+    public openMenu(): void {
         this.menuModel.openMenu();
-        this.view.openMenu();
+        this.view.getMenu().classList.add(this.view.classes.menuOpen);
     }
 
-    public handleCloseMenu(): void {
+    public closeMenu(): void {
         this.menuModel.closeMenu();
-        this.view.closeMenu();
+        this.view.getMenu().classList.remove(this.view.classes.menuOpen);
     }
+
+    public toggleMenu(): void {
+        this.menuModel.toggleMenu();
+        this.view.getMenu().classList.toggle(this.view.classes.menuOpen, this.menuModel.getIsOpen());
+    }
+
+    // Event Handlers
 
     public handleProfileClick(event: MouseEvent): void {
-        this.handleToggleMenu();
+        this.toggleMenu();
     }
 
     public handleMenuClick(event: MouseEvent): void {
@@ -70,15 +74,14 @@ export class ClientProfilePresenter {
         if (!(event.target instanceof Node)) {
             return;
         }
-
         if (!this.view.getElement().contains(event.target)) {
-            this.handleCloseMenu();
+            this.closeMenu();
         }
     }
 
     public handleMenuItemClick(event: MouseEvent, item: MenuItem): void {
         event.stopPropagation();
         item.action();
-        this.handleCloseMenu();
+        this.closeMenu();
     }
 }
