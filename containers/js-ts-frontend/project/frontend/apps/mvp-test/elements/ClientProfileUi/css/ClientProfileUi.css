@@ -1,4 +1,6 @@
 .client-profile {
+    position: relative;
+
     display: flex;
     align-items: center;
     gap: 12px;
@@ -49,4 +51,43 @@
 
     font-size: 14px;
     font-weight: 500;
+}
+
+.client-profile__menu {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 1;
+
+    min-width: 100%;
+    padding: 6px;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+}
+
+.client-profile__menu--open {
+    display: block;
+}
+
+.client-profile__menu-item {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+
+    color: #334155;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+
+    cursor: pointer;
+    text-align: left;
+}
+
+.client-profile__menu-item:hover {
+    background: #eff6ff;
 }

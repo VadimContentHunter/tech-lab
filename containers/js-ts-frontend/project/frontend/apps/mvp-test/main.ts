@@ -1,3 +1,4 @@
+import { MenuModel } from './elements/ClientProfileUi/Model/MenuModel';
 import { UserModel } from './elements/ClientProfileUi/Model/UserModel';
 import { ClientProfilePresenter } from './elements/ClientProfileUi/Presenter/ClientProfilePresenter';
 import { ClientProfileView } from './elements/ClientProfileUi/View/ClientProfileView';
@@ -7,6 +8,19 @@ const user = new UserModel({
     email: 'ivan@example.com',
     avatar: { type: 'icon', value: 'fa-solid fa-circle-user' },
 });
+const menu = new MenuModel({
+    isOpen: false,
+    items: [
+        {
+            title: 'View profile',
+            action: () => console.log('View profile'),
+        },
+        {
+            title: 'Sign out',
+            action: () => console.log('Sign out'),
+        },
+    ],
+});
 const view = new ClientProfileView();
-const presenter = new ClientProfilePresenter(user, view);
+const presenter = new ClientProfilePresenter(user, menu, view);
 presenter.renderTo('#app');

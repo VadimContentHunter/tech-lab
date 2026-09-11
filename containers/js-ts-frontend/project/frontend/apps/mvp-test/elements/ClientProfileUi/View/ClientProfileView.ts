@@ -1,15 +1,27 @@
 import type { UserData } from '../Model/UserModel';
+import type { MenuItem } from '../Model/MenuModel';
 import type { ClientProfilePresenter } from '../Presenter/ClientProfilePresenter';
 
 export class ClientProfileView {
     private readonly element: HTMLElement;
+    private readonly menu: HTMLElement;
     private presenter!: ClientProfilePresenter;
 
     constructor() {
         this.element = document.createElement('div');
         this.element.className = 'client-profile';
-        this.element.addEventListener('click', () => {
-            this.presenter.handleClick();
+        this.menu = document.createElement('div');
+        this.menu.className = 'client-profile__menu';
+
+        // Event listeners
+        this.menu.addEventListener('click', (event) => {
+            this.presenter.handleMenuClick(event);
+        });
+        this.element.addEventListener('click', (event) => {
+            this.presenter.handleProfileClick(event);
+        });
+        document.addEventListener('click', (event) => {
+            this.presenter.handleDocumentClick(event);
         });
     }
 
@@ -17,13 +29,25 @@ export class ClientProfileView {
         this.presenter = presenter;
     }
 
-    public render(user: UserData): void {
-        this.element.innerHTML = '';
+    public render(user: UserData, menuItems: MenuItem[]): void {
         const avatar = this.createAvatar(user);
         const email = document.createElement('span');
         email.className = 'client-profile__email';
         email.textContent = user.email;
-        this.element.append(avatar, email);
+        this.renderMenu(menuItems);
+        this.element.replaceChildren(avatar, email, this.menu);
+    }
+
+    public openMenu(): void {
+        this.menu.classList.add('client-profile__menu--open');
+    }
+
+    public closeMenu(): void {
+        this.menu.classList.remove('client-profile__menu--open');
+    }
+
+    public toggleMenu(isOpen: boolean): void {
+        this.menu.classList.toggle('client-profile__menu--open', isOpen);
     }
 
     public getElement(): HTMLElement {
@@ -44,5 +68,19 @@ export class ClientProfileView {
             container.append(icon);
         }
         return container;
+    }
+
+    private renderMenu(items: MenuItem[]): void {
+        this.menu.replaceChildren();
+        items.forEach((item) => {
+            const menuItem = document.createElement('button');
+            menuItem.className = 'client-profile__menu-item';
+            menuItem.type = 'button';
+            menuItem.textContent = item.title;
+            menuItem.addEventListener('click', (event) => {
+                this.presenter.handleMenuItemClick(event, item);
+            });
+            this.menu.append(menuItem);
+        });
     }
 }

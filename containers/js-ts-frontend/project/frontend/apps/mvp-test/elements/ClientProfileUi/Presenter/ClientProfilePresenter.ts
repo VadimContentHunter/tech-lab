@@ -1,9 +1,10 @@
+import { MenuModel, type MenuItem } from '../Model/MenuModel';
 import { UserModel, type UserData } from '../Model/UserModel';
 import { ClientProfileView } from '../View/ClientProfileView';
-
 export class ClientProfilePresenter {
     constructor(
-        private readonly model: UserModel,
+        private readonly userModel: UserModel,
+        private readonly menuModel: MenuModel,
         private readonly view: ClientProfileView
     ) {
         this.view.setPresenter(this);
@@ -31,15 +32,53 @@ export class ClientProfilePresenter {
     }
 
     public updateUser(data: UserData): void {
-        this.model.update(data);
+        this.userModel.update(data);
         this.renderView();
     }
 
-    public handleClick(): void {
-        console.log('Profile clicked');
+    private renderView(): void {
+        this.view.render(this.userModel.getData(), this.menuModel.getItems());
+        this.view.toggleMenu(this.menuModel.getIsOpen());
     }
 
-    private renderView(): void {
-        this.view.render(this.model.getData());
+    // Event handlers
+
+    public handleToggleMenu(): void {
+        this.menuModel.toggleMenu();
+        this.view.toggleMenu(this.menuModel.getIsOpen());
+    }
+
+    public handleOpenMenu(): void {
+        this.menuModel.openMenu();
+        this.view.openMenu();
+    }
+
+    public handleCloseMenu(): void {
+        this.menuModel.closeMenu();
+        this.view.closeMenu();
+    }
+
+    public handleProfileClick(event: MouseEvent): void {
+        this.handleToggleMenu();
+    }
+
+    public handleMenuClick(event: MouseEvent): void {
+        event.stopPropagation();
+    }
+
+    public handleDocumentClick(event: MouseEvent): void {
+        if (!(event.target instanceof Node)) {
+            return;
+        }
+
+        if (!this.view.getElement().contains(event.target)) {
+            this.handleCloseMenu();
+        }
+    }
+
+    public handleMenuItemClick(event: MouseEvent, item: MenuItem): void {
+        event.stopPropagation();
+        item.action();
+        this.handleCloseMenu();
     }
 }
