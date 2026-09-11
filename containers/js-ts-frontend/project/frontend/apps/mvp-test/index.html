@@ -19,7 +19,9 @@
 
             themeToggle.className = 'theme-toggle';
             themeToggle.type = 'button';
-            themeToggle.textContent = isDark ? 'Light theme' : 'Dark theme';
+            themeToggle.innerHTML = isDark
+                ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
             themeToggle.setAttribute(
                 'aria-label',
                 isDark ? 'Enable light theme' : 'Enable dark theme'
@@ -28,7 +30,9 @@
             document.body.classList.toggle('theme-dark', isDark);
             themeToggle.addEventListener('click', () => {
                 const isDarkTheme = document.body.classList.toggle('theme-dark');
-                themeToggle.textContent = isDarkTheme ? 'Light theme' : 'Dark theme';
+                themeToggle.innerHTML = isDarkTheme
+                    ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
+                    : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
                 themeToggle.setAttribute(
                     'aria-label',
                     isDarkTheme ? 'Enable light theme' : 'Enable dark theme'
