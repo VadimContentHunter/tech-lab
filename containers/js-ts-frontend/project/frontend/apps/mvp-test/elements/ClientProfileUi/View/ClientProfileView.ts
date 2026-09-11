@@ -5,6 +5,7 @@ import type { ClientProfilePresenter } from '../Presenter/ClientProfilePresenter
 export class ClientProfileView {
     public readonly classes = {
         profile: 'client-profile',
+        profileMenuOpen: 'client-profile--menu-open',
         menu: 'client-profile__menu',
         menuOpen: 'client-profile__menu--open',
         avatar: 'client-profile__avatar',

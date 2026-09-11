@@ -48,16 +48,20 @@ export class ClientProfilePresenter {
     public openMenu(): void {
         this.menuModel.openMenu();
         this.view.getMenu().classList.add(this.view.classes.menuOpen);
+        this.view.getElement().classList.add(this.view.classes.profileMenuOpen);
     }
 
     public closeMenu(): void {
         this.menuModel.closeMenu();
         this.view.getMenu().classList.remove(this.view.classes.menuOpen);
+        this.view.getElement().classList.remove(this.view.classes.profileMenuOpen);
     }
 
     public toggleMenu(): void {
         this.menuModel.toggleMenu();
-        this.view.getMenu().classList.toggle(this.view.classes.menuOpen, this.menuModel.getIsOpen());
+        const isOpen = this.menuModel.getIsOpen();
+        this.view.getMenu().classList.toggle(this.view.classes.menuOpen, isOpen);
+        this.view.getElement().classList.toggle(this.view.classes.profileMenuOpen, isOpen);
     }
 
     // Event Handlers

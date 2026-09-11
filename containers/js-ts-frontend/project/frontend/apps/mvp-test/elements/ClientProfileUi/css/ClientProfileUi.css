@@ -18,6 +18,8 @@
         0 10px 20px rgba(15, 23, 42, 0.08);
 
     font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: background-color 150ms ease;
 }
 
 .client-profile__avatar {
@@ -36,6 +38,19 @@
     border-radius: 50%;
 
     font-size: 26px;
+}
+
+.client-profile--menu-open {
+    background-color: #1e3a5f;
+}
+
+.client-profile--menu-open .client-profile__email {
+    color: #f8fafc;
+}
+
+.client-profile--menu-open .client-profile__avatar {
+    background: #dbeafe;
+    color: #1e3a5f;
 }
 
 .client-profile__avatar img {
