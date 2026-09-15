@@ -1,0 +1,57 @@
+@import url('./elements/ClientProfileUi/css/ClientProfileUi.css');
+
+body {
+    --page-background: #f8fafc;
+
+    margin: 0;
+    background: var(--page-background);
+    transition: background-color 150ms ease;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    color: #1e3a5f;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+}
+
+.theme-dark {
+    --page-background: #121314;
+}
+
+.theme-dark .theme-toggle {
+    color: #f8fafc;
+    background: #1f2937;
+    border-color: #475569;
+}
+
+.theme-dark .client-profile {
+    --profile-background: #1f2937;
+    --profile-border: #475569;
+    --profile-text: #e2e8f0;
+    --menu-background: #1f2937;
+    --menu-text: #e2e8f0;
+    --menu-hover-background: #334155;
+    --open-profile-background: #27476f;
+}
+
+#app {
+    position: absolute;
+    top: 25vh;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
