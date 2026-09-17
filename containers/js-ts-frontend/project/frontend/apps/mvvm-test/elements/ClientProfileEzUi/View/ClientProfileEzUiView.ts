@@ -69,7 +69,7 @@ export class ClientProfileView {
     private createProfile(): HTMLElement {
         const element = document.createElement('div');
         element.className = this.classes.profile;
-        element.addEventListener('click', () => this.viewModel.openMenu());
+        element.addEventListener('click', () => this.viewModel.toggleMenu());
         return element;
     }
 

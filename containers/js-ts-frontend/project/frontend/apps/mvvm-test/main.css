@@ -1,19 +1,68 @@
 @import url('./elements/ClientProfileEzUi/css/ClientProfileEzUi.css');
 
+/* Переменные темы страницы */
 body {
+    /* Цвет фона страницы */
     --page-background: #f8fafc;
+    /* Основной цвет текста страницы */
+    --page-text: #1e293b;
+    /* Цвет фона карточек с примерами */
+    --card-background: #ffffff;
+    /* Цвет границы карточек с примерами */
+    --card-border: #cbd5e1;
+    /* Цвет второстепенного текста описаний */
+    --description-text: #64748b;
+    /* Цвет текста описания реализации */
+    --implementation-text: #334155;
+    /* Цвет фона описания реализации */
+    --implementation-background: #f1f5f9;
+    /* Радиус скругления описания реализации */
+    --implementation-border-radius: 8px;
+    /* Размер текста описания реализации */
+    --implementation-font-size: 16px;
 
     margin: 0;
+    min-height: 100vh;
+    color: var(--page-text);
     background: var(--page-background);
     transition: background-color 150ms ease;
 }
 
-.theme-toggle {
+/* Переопределения переменных для тёмной темы */
+.theme-dark {
+    /* Цвет фона страницы в тёмной теме */
+    --page-background: #121314;
+    /* Основной цвет текста в тёмной теме */
+    --page-text: #f8fafc;
+    /* Цвет фона карточек в тёмной теме */
+    --card-background: #1f2937;
+    /* Цвет границы карточек в тёмной теме */
+    --card-border: #475569;
+    /* Цвет второстепенного текста описаний в тёмной теме */
+    --description-text: #94a3b8;
+    /* Цвет текста описания реализации в тёмной теме */
+    --implementation-text: #cbd5e1;
+    /* Цвет фона описания реализации в тёмной теме */
+    --implementation-background: #273449;
+}
+
+.theme-bar {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    right: 0;
     z-index: 10;
 
+    padding: 8px;
+
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-top: 0;
+    border-right: 0;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+}
+
+.theme-toggle {
     width: 40px;
     height: 40px;
     padding: 0;
@@ -28,10 +77,6 @@ body {
     font-size: 16px;
 }
 
-.theme-dark {
-    --page-background: #121314;
-}
-
 .theme-dark .theme-toggle {
     color: #f8fafc;
     background: #1f2937;
@@ -39,19 +84,75 @@ body {
 }
 
 .theme-dark .client-profile {
+    /* Фон профиля в тёмной теме */
     --profile-background: linear-gradient(135deg, #312e81 0%, #4c1d95 100%);
+    /* Граница профиля в тёмной теме */
     --profile-border: #8b5cf6;
+    /* Текст профиля в тёмной теме */
     --profile-text: #f5f3ff;
+    /* Фон меню профиля в тёмной теме */
     --menu-background: #1f2937;
+    /* Текст меню профиля в тёмной теме */
     --menu-text: #e2e8f0;
+    /* Фон меню профиля при наведении в тёмной теме */
     --menu-hover-background: #312e81;
+    /* Фон открытого профиля в тёмной теме */
     --open-profile-background: #27476f;
 }
 
 #app {
-    position: absolute;
-    top: 25vh;
-    left: 50%;
+    display: flex;
+    justify-content: center;
 
-    transform: translate(-50%, -50%);
+    width: min(100% - 32px, 760px);
+    margin: 0 auto;
+    padding: 88px 0 40px;
+}
+
+.demo-card {
+    width: 100%;
+    overflow: hidden;
+
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.demo-card__header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--card-border);
+    font-size: var(--implementation-font-size);
+}
+
+.demo-card__title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.demo-card__description,
+.demo-card__implementation {
+    margin: 14px 0 0;
+    line-height: 1.5;
+}
+
+.demo-card__description {
+    color: var(--description-text);
+    /* font-size: 15px; */
+}
+
+.demo-card__implementation {
+    padding: 10px 12px;
+    color: var(--implementation-text);
+    background: var(--implementation-background);
+    border-radius: var(--implementation-border-radius);
+    /* font-size: var(--implementation-font-size); */
+}
+
+.demo-card__stage {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: var(--demo-stage-min-height);
+    padding: 64px 28px 72px;
 }

@@ -12,22 +12,22 @@ const userModel = new UserModel({
 const menuModel = new MenuModel({
     items: [
         {
-            title: 'View profile',
-            action: () => console.log('View profile'),
+            title: 'Посмотреть профиль',
+            action: () => console.log('Посмотреть профиль'),
         },
         {
-            title: 'Sign out',
-            action: () => console.log('Sign out'),
+            title: 'Выйти',
+            action: () => console.log('Выйти'),
         },
     ],
 });
 
 const viewModel = new ClientProfileEzViewModel(userModel, menuModel);
 const view = new ClientProfileView(viewModel);
-const app = document.querySelector<HTMLElement>('#app');
+const demoStage = document.querySelector<HTMLElement>('.demo-card__stage');
 
-if (!app) {
-    throw new Error('Element not found: #app');
+if (!demoStage) {
+    throw new Error('Element not found: .demo-card__stage');
 }
 
-app.append(view.getElement());
+demoStage.append(view.getElement());
