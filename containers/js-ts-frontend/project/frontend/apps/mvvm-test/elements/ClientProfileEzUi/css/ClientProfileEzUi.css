@@ -1,10 +1,10 @@
 .client-profile {
-    --profile-background: #ffffff;
-    --profile-border: #e2e8f0;
-    --profile-text: #334155;
+    --profile-background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+    --profile-border: #a78bfa;
+    --profile-text: #4338ca;
     --menu-background: #ffffff;
-    --menu-text: #334155;
-    --menu-hover-background: #eff6ff;
+    --menu-text: #4338ca;
+    --menu-hover-background: #eef2ff;
     --open-profile-background: #1e3a5f;
     --open-profile-border: #60a5fa;
     --open-profile-text: #f8fafc;
@@ -26,8 +26,8 @@
     border-radius: 12px;
 
     box-shadow:
-        0 4px 6px rgba(15, 23, 42, 0.06),
-        0 10px 20px rgba(15, 23, 42, 0.08);
+        0 4px 6px rgba(79, 70, 229, 0.12),
+        0 10px 20px rgba(124, 58, 237, 0.16);
 
     font-family: Arial, sans-serif;
     cursor: pointer;
@@ -47,8 +47,8 @@
 
     flex-shrink: 0;
 
-    background: #eff6ff;
-    color: #2563eb;
+    background: #ddd6fe;
+    color: #6d28d9;
 
     border-radius: 50%;
 
@@ -129,14 +129,15 @@
 
 .client-profile__menu-item:hover {
     background: var(--menu-hover-background);
-    border-color: #bfdbfe;
+    border-color: #c4b5fd;
 }
 
 .client-profile__menu-item:focus-visible {
-    outline: 2px solid #60a5fa;
+    outline: 2px solid #8b5cf6;
     outline-offset: 1px;
 }
 
 .client-profile__menu-item:active {
-    background: #dbeafe;
+    color: #312e81;
+    background: #ddd6fe;
 }

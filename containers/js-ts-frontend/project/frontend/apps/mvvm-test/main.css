@@ -1,4 +1,4 @@
-@import url('./elements/ClientProfileUi/css/ClientProfileUi.css');
+@import url('./elements/ClientProfileEzUi/css/ClientProfileEzUi.css');
 
 body {
     --page-background: #f8fafc;
@@ -39,12 +39,12 @@ body {
 }
 
 .theme-dark .client-profile {
-    --profile-background: #1f2937;
-    --profile-border: #475569;
-    --profile-text: #e2e8f0;
+    --profile-background: linear-gradient(135deg, #312e81 0%, #4c1d95 100%);
+    --profile-border: #8b5cf6;
+    --profile-text: #f5f3ff;
     --menu-background: #1f2937;
     --menu-text: #e2e8f0;
-    --menu-hover-background: #334155;
+    --menu-hover-background: #312e81;
     --open-profile-background: #27476f;
 }
 
