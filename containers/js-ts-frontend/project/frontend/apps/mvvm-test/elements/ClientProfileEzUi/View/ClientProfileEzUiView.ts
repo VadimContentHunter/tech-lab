@@ -1,6 +1,4 @@
-import type { UserData } from '../Model/UserModel';
-import type { MenuItem } from '../Model/MenuModel';
-import type { ClientProfilePresenter } from '../ViewModel/ClientProfileEzViewModel';
+import { ClientProfileEzViewModel } from '../ViewModel/ClientProfileEzViewModel';
 
 export class ClientProfileView {
     public readonly classes = {
@@ -14,39 +12,23 @@ export class ClientProfileView {
     } as const;
     private readonly element: HTMLElement;
     private readonly menu: HTMLElement;
-    private presenter!: ClientProfilePresenter;
 
-    constructor() {
+    constructor(private readonly viewModel: ClientProfileEzViewModel) {
         this.element = this.createProfile();
         this.menu = this.createMenu();
+        this.renderProfile();
+        this.renderMenu();
+
+        this.viewModel.addEventListener(ClientProfileEzViewModel.events.isMenuOpenChanged, () => this.renderMenuState());
+
         document.addEventListener('click', (event) => {
-            this.presenter.handleDocumentClick(event);
-        });
-    }
+            if (!(event.target instanceof Node)) {
+                return;
+            }
 
-    public setPresenter(presenter: ClientProfilePresenter): void {
-        this.presenter = presenter;
-    }
-
-    public renderProfile(user: UserData): void {
-        const avatar = this.createAvatar(user);
-        const email = document.createElement('span');
-        email.className = this.classes.email;
-        email.textContent = user.email;
-        this.element.replaceChildren(avatar, email, this.menu);
-    }
-
-    public renderMenu(items: MenuItem[]): void {
-        this.menu.replaceChildren();
-        items.forEach((item) => {
-            const menuItem = document.createElement('button');
-            menuItem.className = this.classes.menuItem;
-            menuItem.type = 'button';
-            menuItem.textContent = item.title;
-            menuItem.addEventListener('click', (event) => {
-                this.presenter.handleMenuItemClick(event, item);
-            });
-            this.menu.append(menuItem);
+            if (!this.element.contains(event.target)) {
+                this.viewModel.closeMenu();
+            }
         });
     }
 
@@ -54,39 +36,60 @@ export class ClientProfileView {
         return this.element;
     }
 
-    public getMenu(): HTMLElement {
-        return this.menu;
+    private renderProfile(): void {
+        const avatar = this.createAvatar();
+        const email = document.createElement('span');
+        email.className = this.classes.email;
+        email.textContent = this.viewModel.email;
+        this.element.replaceChildren(avatar, email, this.menu);
+    }
+
+    private renderMenu(): void {
+        this.menu.replaceChildren();
+        this.viewModel.menuItems.forEach((item) => {
+            const menuItem = document.createElement('button');
+            menuItem.className = this.classes.menuItem;
+            menuItem.type = 'button';
+            menuItem.textContent = item.title;
+            menuItem.addEventListener('click', (event) => {
+                event.stopPropagation();
+                this.viewModel.menuItemClick(item);
+            });
+            this.menu.append(menuItem);
+        });
+        this.renderMenuState();
+    }
+
+    private renderMenuState(): void {
+        const isOpen = this.viewModel.isMenuOpen;
+        this.element.classList.toggle(this.classes.profileMenuOpen, isOpen);
+        this.menu.classList.toggle(this.classes.menuOpen, isOpen);
     }
 
     private createProfile(): HTMLElement {
         const element = document.createElement('div');
         element.className = this.classes.profile;
-        element.addEventListener('click', (event) => {
-            this.presenter.handleProfileClick(event);
-        });
+        element.addEventListener('click', () => this.viewModel.openMenu());
         return element;
     }
 
     private createMenu(): HTMLElement {
         const menu = document.createElement('div');
         menu.className = this.classes.menu;
-        menu.addEventListener('click', (event) => {
-            this.presenter.handleMenuClick(event);
-        });
         return menu;
     }
 
-    private createAvatar(user: UserData): HTMLElement {
+    private createAvatar(): HTMLElement {
         const container = document.createElement('div');
         container.className = this.classes.avatar;
-        if (user.avatar.type === 'image') {
+        if (this.viewModel.avatarType === 'image') {
             const image = document.createElement('img');
-            image.src = user.avatar.value;
+            image.src = this.viewModel.avatar;
             image.alt = '';
             container.append(image);
         } else {
             const icon = document.createElement('i');
-            icon.className = user.avatar.value;
+            icon.className = this.viewModel.avatar;
             container.append(icon);
         }
         return container;

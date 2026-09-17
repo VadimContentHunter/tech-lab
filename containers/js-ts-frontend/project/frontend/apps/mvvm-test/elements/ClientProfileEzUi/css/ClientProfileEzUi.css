@@ -115,13 +115,28 @@
 
     color: var(--menu-text);
     background: transparent;
-    border: 0;
+    border: 1px solid transparent;
     border-radius: 6px;
 
     cursor: pointer;
+    font: inherit;
     text-align: left;
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease;
 }
 
 .client-profile__menu-item:hover {
     background: var(--menu-hover-background);
+    border-color: #bfdbfe;
+}
+
+.client-profile__menu-item:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 1px;
+}
+
+.client-profile__menu-item:active {
+    background: #dbeafe;
 }

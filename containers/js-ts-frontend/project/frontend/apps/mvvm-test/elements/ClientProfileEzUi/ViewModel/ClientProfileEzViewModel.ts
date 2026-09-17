@@ -71,6 +71,7 @@ export class ClientProfileEzViewModel extends ObservableObject {
 
     public menuItemClick(item: MenuItem): void {
         item.action();
+        this.closeMenu();
     }
 
     /* State */
