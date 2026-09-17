@@ -1,19 +1,9 @@
 import { MenuModel, type MenuItem } from '../Model/MenuModel';
-import { UserDataAvatarType, UserModel, type UserData } from '../Model/UserModel';
+import { UserDataAvatarType, UserModel } from '../Model/UserModel';
 import { ObservableObject } from '../ObservableObject';
-import { ClientProfileView } from '../View/ClientProfileEzUiView';
 
-/**
- * Todo: Решить вопрос с onPropertyChanged, хотелось бы сделать защиту от цикличных вызовов.
- * Решить вопрос с handler... с параметром event. (если надо будет после изменения onPropertyChanged)
- */
 export class ClientProfileEzViewModel extends ObservableObject {
     public static readonly events = {
-        idChanged: 'idChanged',
-        emailChanged: 'emailChanged',
-        avatarTypeChanged: 'avatarTypeChanged',
-        avatarChanged: 'avatarChanged',
-        menuItemsChanged: 'menuItemsChanged',
         isMenuOpenChanged: 'isMenuOpenChanged',
     } as const;
 
@@ -34,109 +24,80 @@ export class ClientProfileEzViewModel extends ObservableObject {
         this.handlerUpdateFromUserModel();
         this.handlerUpdateMenuItemsFromMenuModel();
 
-        // Подписка на события изменения свойств ViewModel
-        this.addEventListener(ClientProfileEzViewModel.events.idChanged, this.handlerUpdateForUserModel);
-        this.addEventListener(ClientProfileEzViewModel.events.emailChanged, this.handlerUpdateForUserModel);
-        this.addEventListener(ClientProfileEzViewModel.events.avatarTypeChanged, this.handlerUpdateForUserModel);
-        this.addEventListener(ClientProfileEzViewModel.events.avatarChanged, this.handlerUpdateForUserModel);
-        this.addEventListener(ClientProfileEzViewModel.events.menuItemsChanged, this.handlerUpdateForMenuModel);
-
         // Подписка на события изменения внешних моделей
         this.userModel.addEventListener(UserModel.events.dataUserChanged, this.handlerUpdateFromUserModel);
         this.menuModel.addEventListener(MenuModel.events.itemsMenuChanged, this.handlerUpdateMenuItemsFromMenuModel);
     }
 
-    /* Getters and Setters */
+    /* Getters */
 
     public get id(): number {
         return this._id;
-    }
-
-    public set id(value: number) {
-        if (this._id === value) return;
-        this._id = value;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.idChanged);
     }
 
     public get email(): string {
         return this._email;
     }
 
-    public set email(value: string) {
-        if (this._email === value) return;
-        this._email = value;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.emailChanged);
-    }
-
     public get avatarType(): UserDataAvatarType {
         return this._avatarType;
-    }
-
-    public set avatarType(value: UserDataAvatarType) {
-        if (this._avatarType === value) return;
-        this._avatarType = value;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.avatarTypeChanged);
     }
 
     public get avatar(): string {
         return this._avatar;
     }
 
-    public set avatar(value: string) {
-        if (this._avatar === value) return;
-        this._avatar = value;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.avatarChanged);
-    }
-
     public get menuItems(): MenuItem[] {
         return this._menuItems;
-    }
-
-    public set menuItems(value: MenuItem[]) {
-        this._menuItems = value;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.menuItemsChanged);
     }
 
     public get isMenuOpen(): boolean {
         return this._isMenuOpen;
     }
 
-    public set isMenuOpen(value: boolean) {
+    /* View handlers */
+
+    public toggleMenu(): void {
+        this.isMenuOpen = !this.isMenuOpen;
+    }
+
+    public openMenu(): void {
+        this.isMenuOpen = true;
+    }
+
+    public closeMenu(): void {
+        this.isMenuOpen = false;
+    }
+
+    public menuItemClick(item: MenuItem): void {
+        item.action();
+    }
+
+    /* State */
+
+    private set isMenuOpen(value: boolean) {
+        if (this._isMenuOpen === value) return;
+
         this._isMenuOpen = value;
         this.onPropertyChanged(ClientProfileEzViewModel.events.isMenuOpenChanged);
     }
 
-    public toggleMenu(): void {
-        this.isMenuOpen = !this.isMenuOpen;
-        this.onPropertyChanged(ClientProfileEzViewModel.events.isMenuOpenChanged);
-    }
+    /* Model handlers */
 
-    /* Other methods */
-
-    public handlerUpdateFromUserModel(event?: CustomEvent): void {
+    public handlerUpdateFromUserModel(): void {
         const data = this.userModel.getData();
 
-        this.id = data.id;
-        this.email = data.email;
-        this.avatarType = data.avatar.type;
-        this.avatar = data.avatar.value;
+        this._id = data.id;
+        this._email = data.email;
+        this._avatarType = data.avatar.type;
+        this._avatar = data.avatar.value;
     }
 
-    public handlerUpdateForUserModel(event?: CustomEvent): void {
-        const data = { ...this.userModel.getData() };
-        data.id = this.id;
-        data.email = this.email;
-        data.avatar.type = this.avatarType;
-        data.avatar.value = this.avatar;
+    public handlerUpdateMenuItemsFromMenuModel(): void {
+        const items = this.menuModel.getItems();
 
-        this.userModel.update(data);
-    }
+        if (this._menuItems === items) return;
 
-    public handlerUpdateMenuItemsFromMenuModel(event?: CustomEvent): void {
-        this.menuItems = this.menuModel.getItems();
-    }
-
-    public handlerUpdateForMenuModel(event?: CustomEvent): void {
-        this.menuModel.setItems(this.menuItems);
+        this._menuItems = items;
     }
 }

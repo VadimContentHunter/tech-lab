@@ -24,6 +24,15 @@ export class UserModel extends ObservableObject {
     }
 
     public update(data: UserData): void {
+        if (
+            this.data.id === data.id &&
+            this.data.email === data.email &&
+            this.data.avatar.type === data.avatar.type &&
+            this.data.avatar.value === data.avatar.value
+        ) {
+            return;
+        }
+
         this.data = data;
         this.onPropertyChanged(UserModel.events.dataUserChanged);
     }

@@ -22,6 +22,8 @@ export class MenuModel extends ObservableObject {
     }
 
     public setItems(items: MenuItem[]): void {
+        if (this.data.items === items) return;
+
         this.data.items = items;
         this.onPropertyChanged(MenuModel.events.itemsMenuChanged);
     }
