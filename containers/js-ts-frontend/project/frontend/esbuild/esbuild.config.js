@@ -60,6 +60,7 @@ function createBuildOptions(project) {
         entryPoints: [project.mainPath],
         bundle: true,
         sourcemap: true,
+        minify: true,
         outfile: path.join(project.distPath, 'esbuild.bundle.js'),
         platform: 'browser',
         format: 'esm',
