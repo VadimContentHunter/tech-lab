@@ -1,5 +1,4 @@
-import { ListBinding } from './interfaces/ListBinding';
-import { BindingMode } from './interfaces/Binding';
+import { Binding, BindingMode } from './interfaces/Binding';
 import { ObserverList } from '../observer/ObserverList';
 
 interface ObserverListBindingOptions<T> {
@@ -16,7 +15,7 @@ interface ObserverListBindingOptions<T> {
     };
 }
 
-export class ObserverListBinding<T> extends ListBinding {
+export class ObserverListBinding<T> extends Binding {
     private readonly source: ObserverList<T>;
     private readonly sourceEvent: string;
 
