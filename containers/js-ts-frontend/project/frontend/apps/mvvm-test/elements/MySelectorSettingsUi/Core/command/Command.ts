@@ -22,8 +22,14 @@ export class Command<T = unknown> extends EventTarget implements ICommand<T> {
 
         this.executeAction(parameter);
 
-        if (this.canExecuteChangedEvent !== undefined) {
-            this.dispatchEvent(this.canExecuteChangedEvent);
+        const event = this.getCanExecuteChangedEvent();
+
+        if (event !== undefined) {
+            this.dispatchEvent(event);
         }
+    }
+
+    public getCanExecuteChangedEvent(): Event | undefined {
+        return this.canExecuteChangedEvent;
     }
 }
