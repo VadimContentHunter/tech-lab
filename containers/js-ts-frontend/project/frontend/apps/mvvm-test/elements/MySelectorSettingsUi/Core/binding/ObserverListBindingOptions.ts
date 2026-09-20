@@ -1,28 +1,36 @@
-import { ListBinding } from './ListBinding';
-import { BindingMode } from './Binding';
+import { ListBinding } from './interfaces/ListBinding';
+import { BindingMode } from './interfaces/Binding';
 import { ObserverList } from '../observer/ObserverList';
 
 interface ObserverListBindingOptions<T> {
     mode: BindingMode;
-    source: ObserverList<T>;
-    target: ObserverList<T>;
-    sourceEvent?: string;
-    targetEvent?: string;
+
+    source: {
+        list: ObserverList<T>;
+        event: string;
+    };
+
+    target: {
+        list: ObserverList<T>;
+        event: string;
+    };
 }
 
 export class ObserverListBinding<T> extends ListBinding {
     private readonly source: ObserverList<T>;
-    private readonly target: ObserverList<T>;
     private readonly sourceEvent: string;
+
+    private readonly target: ObserverList<T>;
     private readonly targetEvent: string;
 
-    public constructor({ mode, source, target, sourceEvent = 'change', targetEvent = 'change' }: ObserverListBindingOptions<T>) {
+    public constructor({ mode, source, target }: ObserverListBindingOptions<T>) {
         super(mode);
 
-        this.source = source;
-        this.target = target;
-        this.sourceEvent = sourceEvent;
-        this.targetEvent = targetEvent;
+        this.source = source.list;
+        this.sourceEvent = source.event;
+
+        this.target = target.list;
+        this.targetEvent = target.event;
     }
 
     public bind(): void {
