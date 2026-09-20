@@ -37,14 +37,12 @@ interface HTMLElementCommandBindingOptions<T> {
     };
 
     /**
-     * Дополнительное действие, выполняемое при проверке доступности команды.
+     * Обновляет состояние HTML-элемента в зависимости от доступности команды.
      *
-     * Первым аргументом передаётся результат `command.canExecute()`,
-     * вторым — исходный HTML-элемент.
-     *
-     * Если действие не указано, дополнительная обработка не выполняется.
+     * @param enabled Результат проверки `command.canExecute()`.
+     * @param source HTML-элемент, связанный с командой.
      */
-    action?: (enabled: boolean, source: HTMLElement) => void;
+    updateElementState?: (enabled: boolean, source: HTMLElement) => void;
 }
 
 /**
@@ -71,7 +69,7 @@ interface HTMLElementCommandBindingOptions<T> {
  *         command: saveCommand,
  *         parameter: undefined,
  *     },
- *     action: (enabled, source) => {
+ *     updateElementState: (enabled, source) => {
  *         source.toggleAttribute('disabled', !enabled);
  *     },
  * });
@@ -86,16 +84,16 @@ export class HTMLElementCommandBinding<T> {
     private readonly command: ICommand<T>;
     private readonly parameter: T;
 
-    private readonly action: (enabled: boolean, source: HTMLElement) => void;
+    private readonly updateElementState: (enabled: boolean, source: HTMLElement) => void;
 
-    public constructor({ source, target, action = () => {} }: HTMLElementCommandBindingOptions<T>) {
+    public constructor({ source, target, updateElementState = () => {} }: HTMLElementCommandBindingOptions<T>) {
         this.element = source.element;
         this.elementEvent = source.event;
 
         this.command = target.command;
         this.parameter = target.parameter;
 
-        this.action = action;
+        this.updateElementState = updateElementState;
     }
 
     public bind(): void {
@@ -107,7 +105,7 @@ export class HTMLElementCommandBinding<T> {
             this.command.addEventListener(event.type, this.onCanExecuteChanged);
         }
 
-        this.updateCanExecute();
+        this.updateState();
     }
 
     public unbind(): void {
@@ -120,19 +118,15 @@ export class HTMLElementCommandBinding<T> {
         }
     }
 
-    public dispose(): void {
-        this.unbind();
-    }
-
     private readonly onElementEvent = (): void => {
         this.command.execute(this.parameter);
     };
 
     private readonly onCanExecuteChanged = (): void => {
-        this.updateCanExecute();
+        this.updateState();
     };
 
-    private updateCanExecute(): void {
-        this.action(this.command.canExecute(this.parameter), this.element);
-    }
+    private readonly updateState = (): void => {
+        this.updateElementState(this.command.canExecute(this.parameter), this.element);
+    };
 }
