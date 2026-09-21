@@ -9,16 +9,11 @@ import { BindingMode, IBinding } from './interfaces/IBinding';
 interface HTMLElementBindingOptions<T> {
     /**
      * Направление синхронизации.
-     *
-     * `OneWay` — изменения `observer` передаются в HTML-элемент.
-     *
-     * `TwoWay` — изменения синхронизируются между HTML-элементом
-     * и `observer`.
      */
     mode: BindingMode;
 
     /**
-     * HTML-элемент и его параметры привязки.
+     * HTML-элемент и параметры привязки.
      */
     source: {
         /**
@@ -27,20 +22,20 @@ interface HTMLElementBindingOptions<T> {
         element: HTMLElement;
 
         /**
-         * Свойство HTML-элемента, участвующее в привязке.
-         *
-         * Например: `value`, `checked`, `textContent`.
+         * Свойство HTML-элемента.
          */
         property: string;
 
         /**
-         * DOM-событие, сигнализирующее об изменении свойства элемента.
+         * DOM-событие для обратной передачи значения.
+         *
+         * Не требуется в режиме `OneWay`.
          */
-        event: string;
+        event?: string;
     };
 
     /**
-     * Наблюдаемое свойство.
+     * Наблюдаемое свойство и параметры привязки.
      */
     target: {
         /**
@@ -49,7 +44,7 @@ interface HTMLElementBindingOptions<T> {
         observer: ObserverProperty<T>;
 
         /**
-         * Событие, сигнализирующее об изменении свойства.
+         * Событие изменения наблюдаемого свойства.
          */
         event: string;
     };
@@ -88,7 +83,7 @@ export class HTMLElementBinding<T> implements IBinding {
 
     private readonly element: HTMLElement;
     private readonly elementProperty: string;
-    private readonly elementEvent: string;
+    private readonly elementEvent?: string;
 
     private readonly observer: ObserverProperty<T>;
     private readonly observerEvent: string;
@@ -98,22 +93,32 @@ export class HTMLElementBinding<T> implements IBinding {
 
         this.element = source.element;
         this.elementProperty = source.property;
-        this.elementEvent = source.event;
+
+        if (mode === BindingMode.TwoWay) {
+            if (!source.event) {
+                throw new Error('HTMLElementBinding in TwoWay mode requires an element event.');
+            }
+
+            this.elementEvent = source.event;
+        }
 
         this.observer = target.observer;
         this.observerEvent = target.event;
     }
 
     public bind(): void {
-        this.element.addEventListener(this.elementEvent, this.updateObserver);
+        if (this.mode === BindingMode.TwoWay) {
+            this.element.addEventListener(this.elementEvent!, this.updateObserver);
+        }
 
         this.observer.addEventListener(this.observerEvent, this.updateElement);
-
         this.updateElement();
     }
 
     public unbind(): void {
-        this.element.removeEventListener(this.elementEvent, this.updateObserver);
+        if (this.mode === BindingMode.TwoWay) {
+            this.element.removeEventListener(this.elementEvent!, this.updateObserver);
+        }
 
         this.observer.removeEventListener(this.observerEvent, this.updateElement);
     }
@@ -125,10 +130,6 @@ export class HTMLElementBinding<T> implements IBinding {
     };
 
     private readonly updateObserver = (): void => {
-        if (this.mode !== BindingMode.TwoWay) {
-            return;
-        }
-
         this.observer.value = this.element[this.elementProperty as keyof HTMLElement] as T;
     };
 }

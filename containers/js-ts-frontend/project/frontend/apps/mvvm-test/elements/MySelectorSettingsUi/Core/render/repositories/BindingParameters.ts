@@ -4,7 +4,7 @@
  * @example
  * ```ts
  * new BindingParameters(
- *     'value:Title mode=two-way event=input',
+ *     'value:Title mode:two-way event:input',
  * );
  *
  * // Будет
@@ -45,25 +45,16 @@ export class BindingParameters {
         const tokens = parameters.trim().split(/\s+/);
 
         for (const token of tokens) {
-            const separator = token.indexOf('=');
+            const separator = token.indexOf(':');
 
-            if (separator !== -1) {
-                const name = token.slice(0, separator);
-                const value = token.slice(separator + 1);
-
-                this.values.set(name, value);
-
+            if (separator === -1) {
                 continue;
             }
 
-            const colon = token.indexOf(':');
+            const name = token.slice(0, separator);
+            const value = token.slice(separator + 1);
 
-            if (colon !== -1) {
-                const name = token.slice(0, colon);
-                const value = token.slice(colon + 1);
-
-                this.values.set(name, value);
-            }
+            this.values.set(name, value);
         }
     }
 }

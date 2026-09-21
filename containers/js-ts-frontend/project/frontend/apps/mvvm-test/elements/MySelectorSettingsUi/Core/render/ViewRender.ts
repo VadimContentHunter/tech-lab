@@ -14,7 +14,7 @@ import { BindingParser } from './BindingParser';
  *     <div>
  *         <input
  *             binding="HTMLElementBinding"
- *             binding-param="value:Title mode=two-way event=input"
+ *             binding-param="binding-param="property:value mode:two-way event:input target.prop:Title target.event:change""
  *         >
  *     </div>
  * `);
@@ -29,7 +29,7 @@ import { BindingParser } from './BindingParser';
  *         <div>
  *             <input
  *                 binding="HTMLElementBinding"
- *                 binding-param="value:Title mode=two-way event=input"
+ *                 binding-param="binding-param="property:value mode:two-way event:input target.prop:Title target.event:change""
  *             >
  *         </div>
  *     `,
