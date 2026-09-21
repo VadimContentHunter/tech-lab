@@ -2,36 +2,41 @@ import { IBinding } from '../../binding/interfaces/IBinding';
 import { BindingParameters } from '../BindingParameters';
 
 /**
- * Параметры построения привязки.
+ * Параметры построения Binding.
  */
 export interface BindingBuilderOptions {
     /**
-     * HTML-элемент, для которого создаётся привязка.
+     * HTML-элемент, для которого создаётся Binding.
      */
     element: HTMLElement;
 
     /**
-     * Параметры, полученные из `binding-param`.
+     * Параметры из `binding-param`.
      */
     parameters: BindingParameters;
 
     /**
      * Контекст View.
-     *
-     * Обычно это ViewModel, но может быть любым объектом.
      */
     context?: unknown;
+
+    /**
+     * Имя стратегии построения.
+     *
+     * Если не указано, используется стандартная стратегия Builder.
+     */
+    strategy?: string;
 }
 
 /**
- * Строит экземпляр привязки на основании декларации View.
+ * Создаёт конкретный Binding.
  */
 export interface IBindingBuilder {
     /**
-     * Создаёт привязку.
+     * Создаёт Binding.
      *
      * @param options Параметры построения.
-     * @returns Созданная привязка.
+     * @returns Созданный Binding.
      */
     build(options: BindingBuilderOptions): IBinding;
 }
