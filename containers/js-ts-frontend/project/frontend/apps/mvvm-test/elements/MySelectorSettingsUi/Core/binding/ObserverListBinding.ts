@@ -1,18 +1,14 @@
-import { Binding, BindingMode } from './interfaces/Binding';
+import { IBinding, BindingMode } from './interfaces/IBinding';
 import { ObserverList } from '../observer/ObserverList';
 
 /**
- * Параметры двусторонней привязки наблюдаемых списков.
+ * Параметры привязки наблюдаемых списков.
  *
  * @template T Тип элементов списка.
  */
 interface ObserverListBindingOptions<T> {
     /**
      * Направление синхронизации списков.
-     *
-     * `OneWay` — изменения `source` передаются в `target`.
-     *
-     * `TwoWay` — изменения синхронизируются между `source` и `target`.
      */
     mode: BindingMode;
 
@@ -26,7 +22,7 @@ interface ObserverListBindingOptions<T> {
         list: ObserverList<T>;
 
         /**
-         * Событие, сигнализирующее об изменении списка.
+         * Событие изменения списка.
          */
         event: string;
     };
@@ -36,14 +32,14 @@ interface ObserverListBindingOptions<T> {
      */
     target: {
         /**
-         * Наблюдаемый список, в который передаются изменения.
+         * Наблюдаемый список-цель.
          */
         list: ObserverList<T>;
 
         /**
-         * Событие, сигнализирующее об изменении целевого списка.
+         * Событие изменения целевого списка.
          *
-         * Используется только при режиме `TwoWay`.
+         * Используется только в режиме `TwoWay`.
          */
         event: string;
     };
@@ -52,7 +48,7 @@ interface ObserverListBindingOptions<T> {
 /**
  * Связывает два наблюдаемых списка.
  *
- * В режиме `OneWay` изменения передаются только от `source` к `target`.
+ * В режиме `OneWay` изменения передаются от `source` к `target`.
  *
  * В режиме `TwoWay` изменения синхронизируются в обоих направлениях.
  *
@@ -62,10 +58,12 @@ interface ObserverListBindingOptions<T> {
  * ```ts
  * const binding = new ObserverListBinding({
  *     mode: BindingMode.TwoWay,
+ *
  *     source: {
  *         list: sourceList,
  *         event: 'change',
  *     },
+ *
  *     target: {
  *         list: targetList,
  *         event: 'change',
@@ -75,7 +73,9 @@ interface ObserverListBindingOptions<T> {
  * binding.bind();
  * ```
  */
-export class ObserverListBinding<T> extends Binding {
+export class ObserverListBinding<T> implements IBinding {
+    private readonly mode: BindingMode;
+
     private readonly source: ObserverList<T>;
     private readonly sourceEvent: string;
 
@@ -83,7 +83,7 @@ export class ObserverListBinding<T> extends Binding {
     private readonly targetEvent: string;
 
     public constructor({ mode, source, target }: ObserverListBindingOptions<T>) {
-        super(mode);
+        this.mode = mode;
 
         this.source = source.list;
         this.sourceEvent = source.event;
@@ -105,7 +105,9 @@ export class ObserverListBinding<T> extends Binding {
     public unbind(): void {
         this.source.removeEventListener(this.sourceEvent, this.updateTarget);
 
-        this.target.removeEventListener(this.targetEvent, this.updateSource);
+        if (this.mode === BindingMode.TwoWay) {
+            this.target.removeEventListener(this.targetEvent, this.updateSource);
+        }
     }
 
     private readonly updateTarget = (): void => {

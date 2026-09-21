@@ -1,4 +1,5 @@
 import { ICommand } from '../command/ICommand';
+import { IBinding } from './interfaces/IBinding';
 
 /**
  * Параметры привязки HTML-элемента к команде.
@@ -77,7 +78,7 @@ interface HTMLElementCommandBindingOptions<T> {
  * binding.bind();
  * ```
  */
-export class HTMLElementCommandBinding<T> {
+export class HTMLElementCommandBinding<T> implements IBinding {
     private readonly element: HTMLElement;
     private readonly elementEvent: string;
 

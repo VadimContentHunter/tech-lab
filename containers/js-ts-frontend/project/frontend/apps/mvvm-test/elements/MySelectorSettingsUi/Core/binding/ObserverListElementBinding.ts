@@ -1,3 +1,4 @@
+import { IBinding } from './interfaces/IBinding';
 import { ObserverList } from '../observer/ObserverList';
 
 /**
@@ -16,7 +17,7 @@ interface ObserverListElementBindingOptions<T> {
         list: ObserverList<T>;
 
         /**
-         * Событие, сигнализирующее об изменении списка.
+         * Событие изменения списка.
          */
         event: string;
     };
@@ -43,12 +44,12 @@ interface ObserverListElementBindingOptions<T> {
 /**
  * Связывает наблюдаемый список с HTML-элементом.
  *
- * При изменении исходного списка содержимое HTML-элемента
- * пересоздаётся на основе текущих элементов списка.
- *
  * Связь является односторонней:
  *
  * `ObserverList → HTMLElement`
+ *
+ * При изменении списка содержимое HTML-элемента
+ * пересоздаётся на основе текущих элементов списка.
  *
  * @template T Тип элементов списка.
  *
@@ -73,7 +74,7 @@ interface ObserverListElementBindingOptions<T> {
  * binding.bind();
  * ```
  */
-export class ObserverListElementBinding<T> {
+export class ObserverListElementBinding<T> implements IBinding {
     private readonly list: ObserverList<T>;
     private readonly listEvent: string;
 

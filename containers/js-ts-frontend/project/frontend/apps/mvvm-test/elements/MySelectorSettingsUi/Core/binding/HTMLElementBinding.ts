@@ -1,5 +1,5 @@
-import { Binding, BindingMode } from './interfaces/Binding';
 import { ObserverProperty } from '../observer/ObserverProperty';
+import { BindingMode, IBinding } from './interfaces/IBinding';
 
 /**
  * Параметры привязки HTML-элемента к наблюдаемому свойству.
@@ -83,7 +83,9 @@ interface HTMLElementBindingOptions<T> {
  * binding.bind();
  * ```
  */
-export class HTMLElementBinding<T> extends Binding {
+export class HTMLElementBinding<T> implements IBinding {
+    private readonly mode: BindingMode;
+
     private readonly element: HTMLElement;
     private readonly elementProperty: string;
     private readonly elementEvent: string;
@@ -92,7 +94,7 @@ export class HTMLElementBinding<T> extends Binding {
     private readonly observerEvent: string;
 
     public constructor({ mode, source, target }: HTMLElementBindingOptions<T>) {
-        super(mode);
+        this.mode = mode;
 
         this.element = source.element;
         this.elementProperty = source.property;

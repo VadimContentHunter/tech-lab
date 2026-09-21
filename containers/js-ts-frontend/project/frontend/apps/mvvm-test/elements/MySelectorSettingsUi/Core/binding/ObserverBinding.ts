@@ -1,18 +1,14 @@
-import { Binding, BindingMode } from './interfaces/Binding';
+import { IBinding, BindingMode } from './interfaces/IBinding';
 import { ObserverProperty } from '../observer/ObserverProperty';
 
 /**
  * Параметры привязки наблюдаемых свойств.
  *
- * @template T Тип значения свойств.
+ * @template T Тип значения наблюдаемых свойств.
  */
 interface ObserverBindingOptions<T> {
     /**
-     * Направление синхронизации свойств.
-     *
-     * `OneWay` — изменения `source` передаются в `target`.
-     *
-     * `TwoWay` — изменения синхронизируются между `source` и `target`.
+     * Направление синхронизации.
      */
     mode: BindingMode;
 
@@ -26,7 +22,7 @@ interface ObserverBindingOptions<T> {
         observer: ObserverProperty<T>;
 
         /**
-         * Событие, сигнализирующее об изменении свойства.
+         * Событие изменения источника.
          */
         event: string;
     };
@@ -36,14 +32,14 @@ interface ObserverBindingOptions<T> {
      */
     target: {
         /**
-         * Наблюдаемое свойство, в которое передаются изменения.
+         * Наблюдаемое свойство-цель.
          */
         observer: ObserverProperty<T>;
 
         /**
-         * Событие, сигнализирующее об изменении свойства.
+         * Событие изменения цели.
          *
-         * Используется только при режиме `TwoWay`.
+         * Используется только в режиме `TwoWay`.
          */
         event: string;
     };
@@ -52,20 +48,22 @@ interface ObserverBindingOptions<T> {
 /**
  * Связывает два наблюдаемых свойства.
  *
- * В режиме `OneWay` изменения передаются только от `source` к `target`.
+ * В режиме `OneWay` изменения передаются от `source` к `target`.
  *
  * В режиме `TwoWay` изменения синхронизируются в обоих направлениях.
  *
- * @template T Тип значения свойств.
+ * @template T Тип значения наблюдаемых свойств.
  *
  * @example
  * ```ts
  * const binding = new ObserverBinding({
  *     mode: BindingMode.TwoWay,
+ *
  *     source: {
  *         observer: source,
  *         event: 'change',
  *     },
+ *
  *     target: {
  *         observer: target,
  *         event: 'change',
@@ -75,7 +73,9 @@ interface ObserverBindingOptions<T> {
  * binding.bind();
  * ```
  */
-export class ObserverBinding<T> extends Binding {
+export class ObserverBinding<T> implements IBinding {
+    private readonly mode: BindingMode;
+
     private readonly source: ObserverProperty<T>;
     private readonly sourceEvent: string;
 
@@ -83,7 +83,7 @@ export class ObserverBinding<T> extends Binding {
     private readonly targetEvent: string;
 
     public constructor({ mode, source, target }: ObserverBindingOptions<T>) {
-        super(mode);
+        this.mode = mode;
 
         this.source = source.observer;
         this.sourceEvent = source.event;
@@ -105,7 +105,9 @@ export class ObserverBinding<T> extends Binding {
     public unbind(): void {
         this.source.removeEventListener(this.sourceEvent, this.updateTarget);
 
-        this.target.removeEventListener(this.targetEvent, this.updateSource);
+        if (this.mode === BindingMode.TwoWay) {
+            this.target.removeEventListener(this.targetEvent, this.updateSource);
+        }
     }
 
     private readonly updateTarget = (): void => {
