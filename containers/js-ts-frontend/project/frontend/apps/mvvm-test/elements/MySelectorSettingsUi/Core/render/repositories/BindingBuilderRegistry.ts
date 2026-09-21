@@ -1,4 +1,4 @@
-import { IBindingBuilder } from './interfaces/IBindingBuilder';
+import { IBindingBuilder } from '../interfaces/IBindingBuilder';
 
 /**
  * Реестр Builder'ов для Binding.

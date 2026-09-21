@@ -1,4 +1,4 @@
-import { IBindingStrategy } from './interfaces/IBindingStrategy';
+import { IBindingStrategy } from '../interfaces/IBindingStrategy';
 
 /**
  * Реестр стратегий построения Binding.

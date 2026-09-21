@@ -1,6 +1,6 @@
 import { IBinding } from '../binding/interfaces/IBinding';
-import { BindingBuilderRegistry } from './BindingBuilderRegistry';
-import { BindingParameters } from './BindingParameters';
+import { BindingBuilderRegistry } from './repositories/BindingBuilderRegistry';
+import { BindingParameters } from './repositories/BindingParameters';
 
 /**
  * Разбирает декларативные Binding в HTML.
