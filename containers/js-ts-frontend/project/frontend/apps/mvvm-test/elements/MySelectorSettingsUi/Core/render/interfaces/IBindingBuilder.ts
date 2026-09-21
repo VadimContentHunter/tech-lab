@@ -1,5 +1,5 @@
 import { IBinding } from '../../binding/interfaces/IBinding';
-import { BindingParameters } from '../BindingParameters';
+import { BindingParameters } from '../repositories/BindingParameters';
 
 /**
  * Параметры построения Binding.
@@ -23,7 +23,7 @@ export interface BindingBuilderOptions {
     /**
      * Имя стратегии построения.
      *
-     * Если не указано, используется стандартная стратегия Builder.
+     * Если не указано, используется стандартная стратегия.
      */
     strategy?: string;
 }

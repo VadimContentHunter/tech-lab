@@ -1,5 +1,4 @@
-import { IBinding } from '../../binding/interfaces/IBinding';
-import { BindingParameters } from '../BindingParameters';
+import { BindingParameters } from '../repositories/BindingParameters';
 
 /**
  * Контекст построения Binding.
@@ -19,17 +18,22 @@ export interface BindingBuilderContext {
      * Контекст View.
      */
     context?: unknown;
+
+    /**
+     * Дополнительные данные стратегии.
+     */
+    strategyContext?: unknown;
 }
 
 /**
- * Определяет способ создания Binding.
+ * Определяет способ подготовки данных для создания Binding.
  */
 export interface IBindingStrategy {
     /**
-     * Создаёт Binding с использованием выбранной стратегии.
+     * Подготавливает контекст для Builder.
      *
-     * @param options Контекст построения Binding.
-     * @returns Созданный Binding.
+     * @param options Исходный контекст построения.
+     * @returns Подготовленный контекст.
      */
-    build(options: BindingBuilderContext): IBinding;
+    prepare(options: BindingBuilderContext): BindingBuilderContext;
 }
