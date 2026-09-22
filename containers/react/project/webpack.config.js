@@ -31,9 +31,20 @@ export default (env, argv) => ({
         }),
     ],
     devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+    },
     devServer: {
         host: '0.0.0.0',
         port: 9702,
+        watchFiles: {
+            paths: ['app/public/**/*.html'],
+            options: {
+                usePolling: true,
+                interval: 1000,
+            },
+        },
         static: {
             directory: path.resolve(projectRoot, 'app/public'),
         },
