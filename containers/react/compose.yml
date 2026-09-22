@@ -1,0 +1,16 @@
+services:
+    react-app:
+        build:
+            context: .
+            dockerfile: docker/node-js-24/Dockerfile
+
+        working_dir: /workspace
+
+        ports:
+            - "9702:9702"
+
+        volumes:
+            - ./project:/workspace
+            - /workspace/node_modules
+
+        command: sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then npm install; fi && npm run dev"
