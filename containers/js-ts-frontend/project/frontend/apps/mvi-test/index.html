@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="./dist/main.min.css" />
+    <title>MVI тест</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        function initializeTheme(theme = 'dark') {
+            const themeToggle = document.createElement('button');
+            const isDark = theme === 'dark';
+
+            themeToggle.className = 'theme-toggle';
+            themeToggle.type = 'button';
+            themeToggle.innerHTML = isDark
+                ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
+            themeToggle.setAttribute(
+                'aria-label',
+                isDark ? 'Enable light theme' : 'Enable dark theme'
+            );
+
+            document.body.classList.toggle('theme-dark', isDark);
+            themeToggle.addEventListener('click', () => {
+                const isDarkTheme = document.body.classList.toggle('theme-dark');
+                themeToggle.innerHTML = isDarkTheme
+                    ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
+                    : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
+                themeToggle.setAttribute(
+                    'aria-label',
+                    isDarkTheme ? 'Enable light theme' : 'Enable dark theme'
+                );
+            });
+
+            document.body.append(themeToggle);
+        }
+
+        initializeTheme();
+    </script>
+    <script type="module" src="./dist/esbuild.bundle.js"></script>
+</body>
+
+</html>
