@@ -1,6 +1,6 @@
 import { ClientProfileIntent } from './Intent/ClientProfileIntent';
 import { ClientProfileState } from './Intent/ClientProfileState';
-import { MenuProfileModel } from './Model/MenuProfileModel';
+import { MenuAction, MenuProfileModel } from './Model/MenuProfileModel';
 import { UserProfileModel } from './Model/UserProfileModel';
 import { ClientProfileView, ClientProfileViewEvents } from './View/ClientProfileView';
 
@@ -11,7 +11,10 @@ export class ClientProfileUi {
     private readonly menuModel: MenuProfileModel;
     private readonly view: ClientProfileView;
 
-    constructor(initialState: ClientProfileState) {
+    constructor(
+        initialState: ClientProfileState,
+        private handleAction: (action: MenuAction) => void
+    ) {
         this.state = initialState;
 
         this.userModel = new UserProfileModel(initialState.user);
@@ -57,7 +60,7 @@ export class ClientProfileUi {
                 break;
 
             case 'menuAction':
-                this.menuModel.handleAction(intent.action);
+                this.handleAction(intent.action);
                 this.state = {
                     ...this.state,
                     menu: this.menuModel.closeMenu(),

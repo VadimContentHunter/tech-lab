@@ -19,11 +19,11 @@ const menuModel = new MenuModel({
     items: [
         {
             title: 'Посмотреть профиль',
-            action: () => console.log('Посмотреть профиль'),
+            action: () => alert('Посмотреть профиль'),
         },
         {
             title: 'Выйти',
-            action: () => console.log('Выйти'),
+            action: () => alert('Выйти'),
         },
     ],
 });

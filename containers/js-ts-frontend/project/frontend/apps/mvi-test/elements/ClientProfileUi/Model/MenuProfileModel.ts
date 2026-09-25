@@ -40,23 +40,4 @@ export class MenuProfileModel {
             menuItems: [...items],
         };
     }
-
-    public handleAction(action: MenuAction): void {
-        switch (action) {
-            case 'editProfile':
-                alert('Edit profile');
-                break;
-
-            case 'changeAvatar':
-                alert('Change avatar');
-                break;
-
-            case 'logout':
-                alert('Logout');
-                break;
-
-            case 'none':
-                break;
-        }
-    }
 }

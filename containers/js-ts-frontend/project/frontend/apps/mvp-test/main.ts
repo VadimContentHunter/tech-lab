@@ -13,11 +13,11 @@ const menu = new MenuModel({
     items: [
         {
             title: 'View profile',
-            action: () => console.log('View profile'),
+            action: () => alert('View profile'),
         },
         {
             title: 'Sign out',
-            action: () => console.log('Sign out'),
+            action: () => alert('Sign out'),
         },
     ],
 });
