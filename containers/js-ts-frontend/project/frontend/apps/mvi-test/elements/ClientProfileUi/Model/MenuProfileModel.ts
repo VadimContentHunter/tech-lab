@@ -1,6 +1,3 @@
-import { ClientProfileState } from '../Intent/ClientProfileState';
-import { UserData } from './UserProfileModel';
-
 export type MenuAction = 'none' | 'editProfile' | 'changeAvatar' | 'logout';
 
 export interface MenuItem {
@@ -8,52 +5,58 @@ export interface MenuItem {
     action: MenuAction;
 }
 
+export interface MenuProfileState {
+    isOpen: boolean;
+    menuItems: MenuItem[];
+}
+
 export class MenuProfileModel {
-    private isOpen: boolean;
-    private items: MenuItem[];
+    constructor(private readonly state: MenuProfileState) {}
 
-    constructor(private readonly state: ClientProfileState) {
-        this.isOpen = state.isOpen;
-        this.items = [...state.menuItems];
-    }
-
-    public openMenu(): ClientProfileState {
-        this.isOpen = true;
-
-        return this.getNewState();
-    }
-
-    public closeMenu(): ClientProfileState {
-        this.isOpen = false;
-
-        return this.getNewState();
-    }
-
-    public toggleMenu(): ClientProfileState {
-        this.isOpen = !this.isOpen;
-
-        return this.getNewState();
-    }
-
-    public setItems(items: MenuItem[]): ClientProfileState {
-        this.items = [...items];
-
-        return this.getNewState();
-    }
-
-    public getIsOpen(): boolean {
-        return this.isOpen;
-    }
-
-    public getItems(): MenuItem[] {
-        return [...this.items];
-    }
-
-    private getNewState(): ClientProfileState {
+    public openMenu(): MenuProfileState {
         return {
             ...this.state,
-            isOpen: this.isOpen,
-            menuItems: [...this.items],
+            isOpen: true,
         };
+    }
+
+    public closeMenu(): MenuProfileState {
+        return {
+            ...this.state,
+            isOpen: false,
+        };
+    }
+
+    public toggleMenu(): MenuProfileState {
+        return {
+            ...this.state,
+            isOpen: !this.state.isOpen,
+        };
+    }
+
+    public setItems(items: MenuItem[]): MenuProfileState {
+        return {
+            ...this.state,
+            menuItems: [...items],
+        };
+    }
+
+    public handleAction(action: MenuAction): void {
+        switch (action) {
+            case 'editProfile':
+                console.log('Edit profile');
+                break;
+
+            case 'changeAvatar':
+                console.log('Change avatar');
+                break;
+
+            case 'logout':
+                console.log('Logout');
+                break;
+
+            case 'none':
+                break;
+        }
     }
 }

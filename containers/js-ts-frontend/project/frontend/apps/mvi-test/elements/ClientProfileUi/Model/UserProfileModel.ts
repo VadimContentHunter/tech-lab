@@ -1,34 +1,21 @@
-import { Avatar, ClientProfileState } from '../Intent/ClientProfileState';
+export type Avatar = {
+    type: 'image' | 'icon';
+    value: string;
+};
 
-export interface UserData {
+export interface UserProfileState {
     id: number;
     email: string;
     avatar: Avatar;
 }
 
 export class UserProfileModel {
-    private userData: UserData;
+    constructor(private readonly state: UserProfileState) {}
 
-    constructor(private readonly state: ClientProfileState) {
-        this.userData = {
-            id: state.id,
-            email: state.email,
-            avatar: state.avatar,
-        };
-    }
-
-    public updateUserData(data: UserData): ClientProfileState {
-        this.userData = data;
-
+    public update(data: UserProfileState): UserProfileState {
         return {
             ...this.state,
-            id: data.id,
-            email: data.email,
-            avatar: data.avatar,
+            ...data,
         };
-    }
-
-    public getUserData(): UserData {
-        return this.userData;
     }
 }
