@@ -9,7 +9,7 @@ export interface UserData {
 export class UserProfileModel {
     private userData: UserData;
 
-    constructor(private state: ClientProfileState) {
+    constructor(private readonly state: ClientProfileState) {
         this.userData = {
             id: state.id,
             email: state.email,

@@ -1,17 +1,20 @@
 import { ClientProfileState } from '../Intent/ClientProfileState';
+import { UserData } from './UserProfileModel';
+
+export type MenuAction = 'none' | 'editProfile' | 'changeAvatar' | 'logout';
 
 export interface MenuItem {
     title: string;
-    action?: () => void;
+    action: MenuAction;
 }
 
 export class MenuProfileModel {
     private isOpen: boolean;
     private items: MenuItem[];
 
-    constructor(private state: ClientProfileState) {
+    constructor(private readonly state: ClientProfileState) {
         this.isOpen = state.isOpen;
-        this.items = state.menuItems;
+        this.items = [...state.menuItems];
     }
 
     public openMenu(): ClientProfileState {
@@ -33,7 +36,7 @@ export class MenuProfileModel {
     }
 
     public setItems(items: MenuItem[]): ClientProfileState {
-        this.items = items;
+        this.items = [...items];
 
         return this.getNewState();
     }
@@ -43,7 +46,7 @@ export class MenuProfileModel {
     }
 
     public getItems(): MenuItem[] {
-        return this.items;
+        return [...this.items];
     }
 
     private getNewState(): ClientProfileState {

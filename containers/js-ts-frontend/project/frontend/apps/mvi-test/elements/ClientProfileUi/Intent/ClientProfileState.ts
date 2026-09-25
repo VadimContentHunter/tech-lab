@@ -1,7 +1,4 @@
-export interface MenuItem {
-    title: string;
-    // action: () => void;
-}
+import { MenuItem } from '../Model/MenuProfileModel';
 
 export type Avatar = {
     type: 'image' | 'icon';
