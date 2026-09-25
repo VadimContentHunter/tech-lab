@@ -44,15 +44,15 @@ export class MenuProfileModel {
     public handleAction(action: MenuAction): void {
         switch (action) {
             case 'editProfile':
-                console.log('Edit profile');
+                alert('Edit profile');
                 break;
 
             case 'changeAvatar':
-                console.log('Change avatar');
+                alert('Change avatar');
                 break;
 
             case 'logout':
-                console.log('Logout');
+                alert('Logout');
                 break;
 
             case 'none':

@@ -58,6 +58,10 @@ export class ClientProfileUi {
 
             case 'menuAction':
                 this.menuModel.handleAction(intent.action);
+                this.state = {
+                    ...this.state,
+                    menu: this.menuModel.closeMenu(),
+                };
                 break;
         }
 
