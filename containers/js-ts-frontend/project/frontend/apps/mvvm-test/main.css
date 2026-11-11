@@ -183,3 +183,65 @@ body {
     border-radius: 8px;
     font: inherit;
 }
+
+.input-window {
+    width: min(360px, calc(100% - 32px));
+    padding: 24px;
+    color: var(--page-text);
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.24);
+}
+
+.input-window::backdrop {
+    background: rgba(15, 23, 42, 0.48);
+}
+
+.input-window__form,
+.input-window__label {
+    display: grid;
+    gap: 12px;
+}
+
+.input-window__title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.input-window__label {
+    color: var(--page-text);
+    font-weight: 600;
+}
+
+.input-window__input {
+    min-width: 0;
+    padding: 10px 12px;
+    color: var(--page-text);
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    font: inherit;
+}
+
+.input-window__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.input-window__button {
+    padding: 8px 12px;
+    color: var(--page-text);
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+}
+
+.input-window__button--primary {
+    color: #ffffff;
+    background: #4338ca;
+    border-color: #4338ca;
+}
