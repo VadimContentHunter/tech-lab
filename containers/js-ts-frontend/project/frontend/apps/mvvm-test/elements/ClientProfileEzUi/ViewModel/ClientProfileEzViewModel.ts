@@ -5,6 +5,8 @@ import { ObservableObject } from '../ObservableObject';
 export class ClientProfileEzViewModel extends ObservableObject {
     public static readonly events = {
         isMenuOpenChanged: 'isMenuOpenChanged',
+        dataUserChanged: 'dataUserChanged',
+        itemsMenuChanged: 'itemsMenuChanged',
     } as const;
 
     private _id = 0;
@@ -25,8 +27,8 @@ export class ClientProfileEzViewModel extends ObservableObject {
         this.handlerUpdateMenuItemsFromMenuModel();
 
         // Подписка на события изменения внешних моделей
-        this.userModel.addEventListener(UserModel.events.dataUserChanged, this.handlerUpdateFromUserModel);
-        this.menuModel.addEventListener(MenuModel.events.itemsMenuChanged, this.handlerUpdateMenuItemsFromMenuModel);
+        this.userModel.addEventListener(UserModel.events.dataUserChanged, () => this.handlerUpdateFromUserModel());
+        this.menuModel.addEventListener(MenuModel.events.itemsMenuChanged, () => this.handlerUpdateMenuItemsFromMenuModel());
     }
 
     /* Getters */
@@ -85,20 +87,24 @@ export class ClientProfileEzViewModel extends ObservableObject {
 
     /* Model handlers */
 
-    public handlerUpdateFromUserModel(): void {
+    private handlerUpdateFromUserModel(): void {
         const data = this.userModel.getData();
 
         this._id = data.id;
         this._email = data.email;
         this._avatarType = data.avatar.type;
         this._avatar = data.avatar.value;
+
+        this.onPropertyChanged(ClientProfileEzViewModel.events.dataUserChanged);
     }
 
-    public handlerUpdateMenuItemsFromMenuModel(): void {
+    private handlerUpdateMenuItemsFromMenuModel(): void {
         const items = this.menuModel.getItems();
 
         if (this._menuItems === items) return;
 
         this._menuItems = items;
+
+        this.onPropertyChanged(ClientProfileEzViewModel.events.itemsMenuChanged);
     }
 }

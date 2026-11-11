@@ -38,6 +38,11 @@ if (!demoStage) {
 }
 demoStage.append(profileView.getElement());
 
+userModel.update({
+    ...userModel.getData(),
+    email: 'petr@example.com',
+});
+
 // --------------------------------
 
 const context = {

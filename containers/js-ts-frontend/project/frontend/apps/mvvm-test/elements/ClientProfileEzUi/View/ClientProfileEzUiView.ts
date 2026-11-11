@@ -20,6 +20,8 @@ export class ClientProfileView {
         this.renderMenu();
 
         this.viewModel.addEventListener(ClientProfileEzViewModel.events.isMenuOpenChanged, () => this.renderMenuState());
+        this.viewModel.addEventListener(ClientProfileEzViewModel.events.dataUserChanged, () => this.renderProfile());
+        this.viewModel.addEventListener(ClientProfileEzViewModel.events.itemsMenuChanged, () => this.renderMenu());
 
         document.addEventListener('click', (event) => {
             if (!(event.target instanceof Node)) {
