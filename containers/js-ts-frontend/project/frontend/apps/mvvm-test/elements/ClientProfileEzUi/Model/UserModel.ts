@@ -14,6 +14,7 @@ export interface UserData {
 export class UserModel extends ObservableObject {
     public static readonly events = {
         dataUserChanged: 'dataUserChanged',
+        emailChanged: 'emailChanged',
     } as const;
 
     private data: UserData;
@@ -35,6 +36,13 @@ export class UserModel extends ObservableObject {
 
         this.data = data;
         this.onPropertyChanged(UserModel.events.dataUserChanged);
+    }
+
+    public updateEmail(email: string): void {
+        if (this.data.email === email || email.trim().length < 3 || !email.includes('@')) return;
+
+        this.data.email = email;
+        this.onPropertyChanged(UserModel.events.emailChanged);
     }
 
     public getData(): UserData {

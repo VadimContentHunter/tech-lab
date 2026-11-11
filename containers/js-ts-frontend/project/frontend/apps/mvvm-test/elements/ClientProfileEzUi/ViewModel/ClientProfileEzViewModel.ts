@@ -28,6 +28,7 @@ export class ClientProfileEzViewModel extends ObservableObject {
 
         // Подписка на события изменения внешних моделей
         this.userModel.addEventListener(UserModel.events.dataUserChanged, () => this.handlerUpdateFromUserModel());
+        this.userModel.addEventListener(UserModel.events.emailChanged, () => this.handlerUpdateFromUserModel());
         this.menuModel.addEventListener(MenuModel.events.itemsMenuChanged, () => this.handlerUpdateMenuItemsFromMenuModel());
     }
 
@@ -72,7 +73,7 @@ export class ClientProfileEzViewModel extends ObservableObject {
     }
 
     public menuItemClick(item: MenuItem): void {
-        item.action();
+        item.action(item, item?.storage);
         this.closeMenu();
     }
 

@@ -2,7 +2,8 @@ import { ObservableObject } from '../ObservableObject';
 
 export interface MenuItem {
     title: string;
-    action: () => void;
+    storage?: Record<string, unknown>;
+    action: (thisItem: MenuItem, storage?: Record<string, unknown>) => void;
 }
 
 export interface MenuData {

@@ -8,6 +8,7 @@ import { ViewRender } from './elements/MySelectorSettingsUi/Core/render/ViewRend
 import { BindingBuilderRegistry } from './elements/MySelectorSettingsUi/Core/render/repositories/BindingBuilderRegistry';
 import { BindingStrategyRegistry } from './elements/MySelectorSettingsUi/Core/render/repositories/BindingStrategyRegistry';
 import { HTMLElementBindingBuilder } from './elements/MySelectorSettingsUi/Core/render/builders/HTMLElementBindingBuilder';
+import { InputWindow } from './InputWindow';
 
 const userModel = new UserModel({
     id: 1,
@@ -20,6 +21,28 @@ const menuModel = new MenuModel({
         {
             title: 'Посмотреть профиль',
             action: () => alert('Посмотреть профиль'),
+        },
+        {
+            title: 'Переименовать почту',
+            storage: { newEmail: '' },
+            action: (thisItem, storage) => {
+                const storedEmail = storage?.['newEmail'];
+                const currentEmail = typeof storedEmail === 'string' && storedEmail.length > 0 ? storedEmail : userModel.getData().email;
+
+                new InputWindow({
+                    title: 'Переименовать почту',
+                    label: 'Новый email',
+                    value: currentEmail,
+                    inputType: 'email',
+                    validate: (value) => (value.length > 3 && value.includes('@') ? null : 'Введите email длиной больше 3 символов, содержащий @.'),
+                    onSubmit: (newEmail) => {
+                        if (thisItem.storage) {
+                            thisItem.storage['newEmail'] = newEmail;
+                        }
+                        userModel.updateEmail(newEmail);
+                    },
+                }).open();
+            },
         },
         {
             title: 'Выйти',
@@ -38,10 +61,10 @@ if (!demoStage) {
 }
 demoStage.append(profileView.getElement());
 
-userModel.update({
-    ...userModel.getData(),
-    email: 'petr@example.com',
-});
+// userModel.update({
+//     ...userModel.getData(),
+//     email: 'petr@example.com',
+// });
 
 // --------------------------------
 
