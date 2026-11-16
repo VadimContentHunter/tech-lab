@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import App from './App';
 import Counter from './Counter';
+import EventDemo from './EventDemo';
 
 const rootElement = document.getElementById('root');
 
@@ -15,5 +16,7 @@ createRoot(rootElement).render(
         <App />
         <hr />
         <Counter />
+        <hr />
+        <EventDemo />
     </StrictMode>
 );
