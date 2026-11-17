@@ -79,7 +79,7 @@ function Card({ children }: CardProps) {
     return <div className="card">{children}</div>;
 }
 
-function App() {
+function UserCard() {
     return (
         <Card>
             <UserInfo nameProp="John Doe" emailProp="john.doe@example.com" ageProp={30} isActiveProp={true} />
@@ -87,4 +87,4 @@ function App() {
     );
 }
 
-export default App;
+export default UserCard;
