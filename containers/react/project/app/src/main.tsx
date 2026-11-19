@@ -5,6 +5,7 @@ import Counter from './Counter';
 import EventDemo from './EventDemo';
 import UserCard from './UserCard';
 import UserCardClass from './UserCardClass';
+import EffectDemo from './EffectDemo';
 
 const rootElement = document.getElementById('root');
 
@@ -21,5 +22,7 @@ createRoot(rootElement).render(
         <EventDemo />
         <hr />
         <UserCardClass />
+        <hr />
+        <EffectDemo />
     </StrictMode>
 );
