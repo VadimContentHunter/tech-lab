@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import Counter from './Counter';
 import EventDemo from './EventDemo';
 import UserCard from './UserCard';
+import UserCardClass from './UserCardClass';
 
 const rootElement = document.getElementById('root');
 
@@ -18,5 +19,7 @@ createRoot(rootElement).render(
         <Counter />
         <hr />
         <EventDemo />
+        <hr />
+        <UserCardClass />
     </StrictMode>
 );

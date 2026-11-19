@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 
 type UserInfoProps = {
     nameProp?: string;
@@ -11,7 +11,7 @@ type CardProps = {
     children: React.ReactNode;
 };
 
-function UserInfo({ nameProp, emailProp, ageProp, isActiveProp = false }: UserInfoProps) {
+function UserInfo({ nameProp, emailProp, ageProp, isActiveProp = false }: UserInfoProps): JSX.Element {
     const [description, setDescription] = useState('');
     const [email, setEmail] = useState(emailProp || '-----');
     const [age, setAge] = useState(ageProp ?? 0);
@@ -75,11 +75,11 @@ function UserInfo({ nameProp, emailProp, ageProp, isActiveProp = false }: UserIn
     );
 }
 
-function Card({ children }: CardProps) {
+function Card({ children }: CardProps): JSX.Element {
     return <div className="card">{children}</div>;
 }
 
-function UserCard() {
+function UserCard(): JSX.Element {
     return (
         <Card>
             <UserInfo nameProp="John Doe" emailProp="john.doe@example.com" ageProp={30} isActiveProp={true} />
