@@ -6,6 +6,7 @@ import EventDemo from './EventDemo';
 import UserCard from './UserCard';
 import UserCardClass from './UserCardClass';
 import EffectDemo from './EffectDemo';
+import Timer from './Timer';
 
 const rootElement = document.getElementById('root');
 
@@ -24,5 +25,7 @@ createRoot(rootElement).render(
         <UserCardClass />
         <hr />
         <EffectDemo />
+        <hr />
+        <Timer />
     </StrictMode>
 );
