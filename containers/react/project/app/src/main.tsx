@@ -8,6 +8,7 @@ import UserCardClass from './UserCardClass';
 import EffectDemo from './EffectDemo';
 import Timer from './Timer';
 import CastInput from './CastInput';
+import RefCounter from './RefCounter';
 
 const rootElement = document.getElementById('root');
 
@@ -30,5 +31,7 @@ createRoot(rootElement).render(
         <Timer />
         <hr />
         <CastInput />
+        <hr />
+        <RefCounter />
     </StrictMode>
 );
