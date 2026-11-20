@@ -7,6 +7,7 @@ import UserCard from './UserCard';
 import UserCardClass from './UserCardClass';
 import EffectDemo from './EffectDemo';
 import Timer from './Timer';
+import CastInput from './CastInput';
 
 const rootElement = document.getElementById('root');
 
@@ -27,5 +28,7 @@ createRoot(rootElement).render(
         <EffectDemo />
         <hr />
         <Timer />
+        <hr />
+        <CastInput />
     </StrictMode>
 );
