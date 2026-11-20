@@ -10,6 +10,7 @@ import Timer from './Timer';
 import CastInput from './CastInput';
 import RefCounter from './RefCounter';
 import CastInputClass from './CastInputClass';
+import UserCardReducerComponent from './UserCardReducer';
 
 const rootElement = document.getElementById('root');
 
@@ -36,5 +37,7 @@ createRoot(rootElement).render(
         <RefCounter />
         <hr />
         <CastInputClass />
+        <hr />
+        <UserCardReducerComponent />
     </StrictMode>
 );
