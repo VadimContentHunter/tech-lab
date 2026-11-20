@@ -9,6 +9,7 @@ import EffectDemo from './EffectDemo';
 import Timer from './Timer';
 import CastInput from './CastInput';
 import RefCounter from './RefCounter';
+import CastInputClass from './CastInputClass';
 
 const rootElement = document.getElementById('root');
 
@@ -33,5 +34,7 @@ createRoot(rootElement).render(
         <CastInput />
         <hr />
         <RefCounter />
+        <hr />
+        <CastInputClass />
     </StrictMode>
 );
