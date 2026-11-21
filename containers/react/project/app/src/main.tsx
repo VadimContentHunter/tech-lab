@@ -11,6 +11,7 @@ import CastInput from './CastInput';
 import RefCounter from './RefCounter';
 import CastInputClass from './CastInputClass';
 import UserCardReducerComponent from './UserCardReducer';
+import UserBlock from './UserBlock/UserBlock';
 
 const rootElement = document.getElementById('root');
 
@@ -39,5 +40,7 @@ createRoot(rootElement).render(
         <CastInputClass />
         <hr />
         <UserCardReducerComponent />
+        <hr />
+        <UserBlock />
     </StrictMode>
 );
