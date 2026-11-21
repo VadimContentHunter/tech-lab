@@ -7,9 +7,9 @@ const profileStyle = {
 };
 
 function UserProfile() {
-    const user = useContext(UserContext);
+    const userContext = useContext(UserContext);
 
-    if (!user) {
+    if (!userContext) {
         return (
             <div>
                 <p style={profileStyle.text}>No user data available.</p>
@@ -17,11 +17,13 @@ function UserProfile() {
         );
     }
 
+    const { userProfile } = userContext;
+
     return (
         <div>
             <h2 style={profileStyle.heading}>User Profile</h2>
-            <p style={profileStyle.text}>Name: {user.name}</p>
-            <p style={profileStyle.text}>Email: {user.email}</p>
+            <p style={profileStyle.text}>Name: {userProfile.name}</p>
+            <p style={profileStyle.text}>Email: {userProfile.email}</p>
         </div>
     );
 }

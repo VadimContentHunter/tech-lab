@@ -6,4 +6,9 @@ export interface UserProfile {
     email: string;
 }
 
-export const UserContext = createContext<UserProfile | null>(null);
+export type UserProviderProps = {
+    userProfile: UserProfile;
+    updateUserProfile: (userProfile: UserProfile) => void;
+};
+
+export const UserContext = createContext<UserProviderProps | null>(null);
