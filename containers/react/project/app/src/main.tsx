@@ -12,6 +12,7 @@ import RefCounter from './RefCounter';
 import CastInputClass from './CastInputClass';
 import UserCardReducerComponent from './UserCardReducer';
 import UserBlock from './UserBlock/UserBlock';
+import Forms from './Forms';
 
 const rootElement = document.getElementById('root');
 
@@ -42,5 +43,7 @@ createRoot(rootElement).render(
         <UserCardReducerComponent />
         <hr />
         <UserBlock />
+        <hr />
+        <Forms />
     </StrictMode>
 );
