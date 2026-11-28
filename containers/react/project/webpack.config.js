@@ -7,10 +7,14 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 export default (env, argv) => ({
     mode: argv.mode ?? 'development',
-    entry: path.resolve(projectRoot, 'app/src/main.tsx'),
+  entry: {
+    main: path.resolve(projectRoot, 'app/src/main.tsx'),
+    routing: path.resolve(projectRoot, 'app/src/routing.tsx'),
+  },
     output: {
         path: path.resolve(projectRoot, 'app/dist'),
         filename: 'assets/[name].[contenthash].js',
+      publicPath: '/',
         clean: true,
     },
     resolve: {
@@ -25,11 +29,20 @@ export default (env, argv) => ({
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(projectRoot, 'app/public/index.html'),
-        }),
-    ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(projectRoot, 'app/public/index.html'),
+      chunks: ['main'],
+      publicPath: '/',
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'routing-react-lesson.html',
+      template: path.resolve(projectRoot, 'app/public/routing-react-lesson.html'),
+      chunks: ['routing'],
+      publicPath: '/',
+    }),
+  ],
     devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
     watchOptions: {
         aggregateTimeout: 300,
@@ -45,9 +58,13 @@ export default (env, argv) => ({
                 interval: 1000,
             },
         },
-        static: {
-            directory: path.resolve(projectRoot, 'app/public'),
-        },
+      historyApiFallback: {
+        rewrites: [
+          { from: /^\/base-react-lesson\/?$/, to: '/index.html' },
+          { from: /^\/routing-react-lesson\/?$/, to: '/routing-react-lesson.html' },
+        ],
+      },
+      static: false,
         hot: true,
         open: false,
     },
