@@ -11,24 +11,30 @@ const port = Number(process.env.PORT) || 9702;
 const projectPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'app', 'dist');
 const indexPath = path.join(projectPath, 'index.html');
 const routingPagePath = path.join(projectPath, 'routing-react-lesson.html');
+const homePagePath = path.join(projectPath, 'home.html');
 
-app.get('/base-react-lesson', (_request, response) => {
-    response.sendFile(indexPath);
-});
-
-app.get('/routing-react-lesson', (_request, response) => {
-  response.sendFile(routingPagePath);
+app.get('/', (_request, response) => {
+  response.sendFile(homePagePath);
 });
 
 app.use('/base-react-lesson', express.static(projectPath, { index: false }));
 app.use('/routing-react-lesson', express.static(projectPath, { index: false }));
 app.use('/assets', express.static(path.join(projectPath, 'assets')));
 
+// Return the SPA entry page for the lesson route and all of its client-side URLs.
+// For example: /routing-react-lesson/users/1 -> routing-react-lesson.html
+app.get(/^\/base-react-lesson(?:\/.*)?$/, (_request, response) => {
+    response.sendFile(indexPath);
+});
+
+app.get(/^\/routing-react-lesson(?:\/.*)?$/, (_request, response) => {
+    response.sendFile(routingPagePath);
+});
+
 app.use((_request, response) => {
-  response.status(404).type('text').send('Page not found');
+    response.status(404).type('text').send('Page not found');
 });
 
 app.listen(port, () => {
-  console.log(`Server: http://localhost:${port}/base-react-lesson`);
+    console.log(`Server: http://localhost:${port}/base-react-lesson`);
 });
-

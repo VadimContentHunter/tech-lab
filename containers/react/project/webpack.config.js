@@ -42,6 +42,12 @@ export default (env, argv) => ({
       chunks: ['routing'],
       publicPath: '/',
     }),
+    new HtmlWebpackPlugin({
+      filename: 'home.html',
+      template: path.resolve(projectRoot, 'app/public/home.html'),
+      chunks: [],
+      publicPath: '/',
+    }),
   ],
     devtool: argv.mode === 'production' ? 'source-map' : 'eval-source-map',
     watchOptions: {
@@ -60,9 +66,13 @@ export default (env, argv) => ({
         },
       historyApiFallback: {
         rewrites: [
-          { from: /^\/base-react-lesson\/?$/, to: '/index.html' },
-          { from: /^\/routing-react-lesson\/?$/, to: '/routing-react-lesson.html' },
+          { from: /^\/$/, to: '/home.html' },
+          { from: /^\/base-react-lesson(?:\/.*)?\/?$/, to: '/index.html' },
+          { from: /^\/routing-react-lesson(?:\/.*)?\/?$/, to: '/routing-react-lesson.html' },
         ],
+      },
+      devMiddleware: {
+        index: 'home.html',
       },
       static: false,
         hot: true,

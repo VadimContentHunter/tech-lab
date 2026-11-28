@@ -1,5 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import RouterAppContainer from './TestRouter/RouterAppContainer';
+import { BrowserRouter } from 'react-router';
 
 const rootElement = document.getElementById('root');
 
@@ -9,7 +11,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
     <StrictMode>
-        <h1>Routing React Lesson</h1>
-        <p>This is the starting page for the React routing lesson.</p>
+        <BrowserRouter basename="/routing-react-lesson">
+            <RouterAppContainer />
+        </BrowserRouter>
     </StrictMode>
 );
